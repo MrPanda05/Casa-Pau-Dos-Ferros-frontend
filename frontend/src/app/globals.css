@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.formLabelText{
+  @apply block;
+  @apply text-sm/6;
+  @apply text-white;
+  @apply font-bold;
+}
+
+.formInput{
+  @apply block;
+  @apply w-full;
+  @apply rounded-md;
+  @apply border-2;
+  @apply border-purple-400;
+  @apply bg-yellow-300;
+  @apply px-3;
+  @apply py-1.5;
+  @apply text-base;
+  @apply text-gray-900;
+  @apply outline-1;
+  @apply -outline-offset-1;
+  @apply outline-gray-300;
+  @apply placeholder:text-gray-500;
+  @apply focus:outline-2;
+  @apply focus:-outline-offset-2;
+  @apply focus:outline-indigo-600;
+  @apply sm:text-sm/6;
+}
+

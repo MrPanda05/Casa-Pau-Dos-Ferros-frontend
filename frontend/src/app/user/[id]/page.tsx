@@ -1,6 +1,5 @@
 'use server'
 import Avatar from "@/components/userRelated/Avatar"
-import LogOutButton from "@/components/LoginRelated/LogOutButton"
 
 export default async function Page({
     params,
@@ -24,7 +23,8 @@ export default async function Page({
               Minha descricao
             </div>
             <div>
-              <LogOutButton />
+              {/* <LogOutButton /> */}
+              logout not implemented
             </div>
         </div>
     )

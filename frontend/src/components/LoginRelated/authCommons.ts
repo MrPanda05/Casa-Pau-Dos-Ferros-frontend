@@ -120,6 +120,33 @@ async function LogUser(e: React.FormEvent<HTMLFormElement>) {
 }
 
 
+export async function LogOut(){
+
+    try {
+        const token = await CoockieGet("token")
+        console.log(token?.value)
+        const response = await axios.post('http://127.0.0.1:8000/api/logout/',{
+            token: token?.value
+        }, {
+            headers: {
+                Authorization: `token ${token?.value}`,
+            }})
+        console.log("trying to log out user")
+        console.log(response.status)
+        console.log(response.data.message)
+        await CoockieDeleter("token")
+        await CoockieDeleter("userId")
+        return { data: response.data.message, status: response.status }
+    } catch (err) {
+        if (axios.isAxiosError(err) && err.response) {
+            return { data: err.response.data, status: err.response.status };
+        } else {
+            return { data: 'unknown', status: 500 };
+        }
+    }
+  }
+
+
 export type { ISwitch, ISubmit };
 
 export { RegiterUser, LogUser }

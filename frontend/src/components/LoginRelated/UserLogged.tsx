@@ -13,8 +13,10 @@ export default function UserLogged(){
         const checkUserLogged = async () => {
             const isUserLoged = await CoockieExist("token");
             if(isUserLoged){
-                const username = await CoockieGet("username")
-                setuserURL(`/user/${username?.value}`)
+                const userId = await CoockieGet("userId")
+                setuserURL(`/user/${userId?.value}`)
+            }else{
+                setuserURL('/auth/login')
             }
         };
         checkUserLogged();

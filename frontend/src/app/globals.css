@@ -48,3 +48,19 @@ body {
   @apply sm:text-sm/6;
 }
 
+.settingsObj{
+  @apply m-2;
+  @apply active:!border-blue-600;
+  @apply hover:border-2;
+  @apply hover:border-white;
+  @apply hover:rounded-md;
+}
+
+.blueButton{
+  @apply bg-cyan-400; 
+  @apply rounded-md; 
+  @apply w-64; 
+  @apply hover:bg-cyan-500; 
+  @apply active:bg-cyan-300; 
+  @apply disabled:bg-cyan-200
+}

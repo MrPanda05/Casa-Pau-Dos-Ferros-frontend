@@ -1,4 +1,5 @@
 'use server'
+import LogOutButton from "@/components/LoginRelated/LogOutButton"
 import Avatar from "@/components/userRelated/Avatar"
 
 export default async function Page({
@@ -23,8 +24,7 @@ export default async function Page({
               Minha descricao
             </div>
             <div>
-              {/* <LogOutButton /> */}
-              logout not implemented
+              <LogOutButton />
             </div>
         </div>
     )

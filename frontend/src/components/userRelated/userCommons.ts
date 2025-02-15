@@ -27,9 +27,6 @@ async function AddNewAddress(e: React.FormEvent<HTMLFormElement>) {
             street: street,
             number: number,
             complement: complement,
-            country: "",
-            neighborhood: ""
-
         }, {
             headers:{
                 Authorization: `token ${token?.value}`,

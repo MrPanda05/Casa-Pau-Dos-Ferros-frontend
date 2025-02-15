@@ -87,7 +87,40 @@ async function RegiterUser(e: React.FormEvent<HTMLFormElement>) {
 }
 
 
+async function LogUser(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault(); 
+    const formData = new FormData(e.currentTarget);
+    //Change to get every data later
+    const email = formData.get('email') as string;
+    const password = formData.get('password') as string;
+    console.log(name)
+    console.log(email)
+    console.log(password)
+
+
+    try {
+        const response = await axios.post('http://127.0.0.1:8000/api/login/', {
+            email: email,
+            password: password
+        })
+        console.log("trying to log user")
+        console.log(response.status)
+        console.log(response.data.message)
+        CoockieSet("token", response.data.token)
+        CoockieSet("userId", response.data.userId)
+        return { data: response.data.message, status: response.status };
+    } catch (err) {
+        if (axios.isAxiosError(err) && err.response) {
+            return { data: err.response.data, status: err.response.status };
+        } else {
+            return { data: 'unknown', status: 500 };
+        }
+        
+    }
+}
+
+
 export type { ISwitch, ISubmit };
 
-export { RegiterUser }
+export { RegiterUser, LogUser }
 

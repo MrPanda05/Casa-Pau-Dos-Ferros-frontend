@@ -18,7 +18,7 @@ export default function LoginForm({onLoginChange: changeLogin} : ISwitch){
         console.log("submit handler test")
         const data = await LogUser(e);
         console.log(data.status)
-        if(data.status === 400 || data.status === 500){
+        if(data.status !== 200 && data.status !== 201){
             setShowError(true)
             setErrorStatus(data.status)
             setErrorMessage(data.data)
@@ -29,11 +29,10 @@ export default function LoginForm({onLoginChange: changeLogin} : ISwitch){
             const userName = await CoockieGet("userId");
             router.push(`/user/${userName?.value}`);
         }
-        
     }
 
     return (
-        <div className="rounded-md">
+        <div className="rounded-md overflow-scroll">
             <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 text-white font-bold text-2xl/9">
                 <h1 className="text-center">
                     Logar!

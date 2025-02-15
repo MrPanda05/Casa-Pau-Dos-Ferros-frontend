@@ -1,6 +1,9 @@
 'use server'
+import { CoockieExist } from "@/components/common/CoockiesManegers"
 import LogOutButton from "@/components/LoginRelated/LogOutButton"
 import Avatar from "@/components/userRelated/Avatar"
+import Link from "next/link"
+import { redirect } from "next/navigation"
 
 export default async function Page({
     params,
@@ -8,6 +11,10 @@ export default async function Page({
     params: Promise<{ id: string }>
   }) {
       const userID = (await params).id
+      const token = await CoockieExist("token");
+      if(!token){
+        redirect("/auth/login")
+    }
 
 
     return (
@@ -17,13 +24,19 @@ export default async function Page({
               Meu perfil
             </h1>
             <Avatar />
-            <div className="text-2xl">
-              Ola, me chamo {userID}
+            <div className="flex flex-row gap-10 justify-between font-bold text-stone-900">
+              <div>
+                <Link href={`/user/${userID}/settings`} className="blueButton p-3">
+                  settings
+                </Link>
+              </div>
+              <div>
+                <Link href={`/user/${userID}/cart`} className="blueButton p-3">
+                  cart
+                </Link>
+              </div>
             </div>
-            <div className="text-2xl">
-              Minha descricao
-            </div>
-            <div>
+            <div className="mt-10">
               <LogOutButton />
             </div>
         </div>

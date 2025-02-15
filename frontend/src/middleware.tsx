@@ -1,18 +1,3 @@
-// import { NextResponse } from "next/server";
-// import type { NextRequest } from "next/server";
-
-// export function middleware(req: NextRequest) {
-//   const url = req.nextUrl.clone();
-
-//   if (url.pathname === "/user/") {
-//       url.pathname = "/"; 
-//       console.log(url.pathname)
-//     return NextResponse.redirect(url);
-//   }
-
-//   return NextResponse.next();
-// }
-
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
  
@@ -28,9 +13,8 @@ export function middleware(request: NextRequest) {
 
   return NextResponse.redirect(new URL('/', request.url))
 }
-//fix this to make remove the /api from the url preventing user from accessing the api directly
 export const config = {
-    matcher: ['/user', '/loja/item', '/user/:id/api', '/auth'],
+    matcher: ['/user', '/loja/item', '/auth'],
   }
  
 //todo mudar para que a seja redicerionado a loja se estiver no item

@@ -90,7 +90,6 @@ async function RegiterUser(e: React.FormEvent<HTMLFormElement>) {
 async function LogUser(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault(); 
     const formData = new FormData(e.currentTarget);
-    //Change to get every data later
     const email = formData.get('email') as string;
     const password = formData.get('password') as string;
     console.log(name)
@@ -100,7 +99,7 @@ async function LogUser(e: React.FormEvent<HTMLFormElement>) {
 
     try {
         const response = await axios.post('http://127.0.0.1:8000/api/login/', {
-            email: email,
+            login: email,
             password: password
         })
         console.log("trying to log user")

@@ -27,7 +27,8 @@ async function RegisterStaffComplete(e: React.FormEvent<HTMLFormElement>){
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
     //Change to get every data later
-    const name = formData.get('name') as string
+    let username = formData.get('username') as string;
+    const name = formData.get('name') as string;
     const email = formData.get('email') as string
     const password = formData.get('password') as string
     const confirmPassword = formData.get('confirmpassword') as string
@@ -40,12 +41,12 @@ async function RegisterStaffComplete(e: React.FormEvent<HTMLFormElement>){
         return { data: "SENHA INVALIDA", status: 422};
     }
 
-    const username = name.replace(/[\n\r\s\t]+/g, '')
+    username = username.replace(/[\n\r\s\t]+/g, '')
 
     try {
         const token = await CoockieGet("token")
         const response = await axios.post('http://127.0.0.1:8000/api/staff/', {
-            username: `${username}${email}`,
+            username: username,
             email: email,
             password: password,
             cpf: cpf,

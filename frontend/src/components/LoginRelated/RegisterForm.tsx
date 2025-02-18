@@ -34,6 +34,22 @@ export default function RegisterForm({onLoginChange: changeLogin} : ISwitch){
                 </h1>
                 <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
                     <form method="POST" className="space-y-6" onSubmit={handleSubmit}>
+                    <div>
+                            <label htmlFor="username" className="formLabelText">
+                                Nome de Usuario
+                            </label>
+                            <div className="mt-2">
+                                <input
+                                id="username"
+                                name="username"
+                                type="text"
+                                required
+                                autoComplete="none"
+                                placeholder="TrumpeteGamer123"
+                                className="formInput"
+                                />
+                            </div>
+                        </div>
                         <div>
                             <label htmlFor="name" className="formLabelText">
                                 Nome

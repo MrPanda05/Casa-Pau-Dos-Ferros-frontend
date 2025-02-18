@@ -1,4 +1,5 @@
 'use server'
+import { AmIAdmin } from "@/components/adminRelated/adminCommons"
 import { CoockieExist } from "@/components/common/CoockiesManegers"
 import LogOutButton from "@/components/LoginRelated/LogOutButton"
 import Avatar from "@/components/userRelated/Avatar"
@@ -16,10 +17,14 @@ export default async function Page({
         redirect("/auth/login")
     }
 
+      const data = await AmIAdmin();
+      const isAdmin = data.status === 403 ? false: true
+
+
 
     return (
         <div className="grid grid-flow-row justify-center text-center gap-5">
-            {/* {data.id} */}
+            {/* {data.iddd} */}
             <h1 className="text-4xl font-bold m-10">
               Meu perfil
             </h1>
@@ -38,6 +43,11 @@ export default async function Page({
             </div>
             <div className="mt-10">
               <LogOutButton />
+              {isAdmin && <div className="mt-5">
+                <Link href='/admin' className="blueButton p-2 font-bold text-lg">
+                admin page
+                </Link>
+                </div>}
             </div>
         </div>
     )

@@ -10,7 +10,7 @@ interface ISubmit {
 }
 
 
-function validarCPF(cpf: string): boolean  {
+export function validarCPF(cpf: string): boolean  {
     cpf = cpf.replace(/\D/g, '');
   
     if (cpf.length !== 11) return false;
@@ -44,7 +44,7 @@ async function RegiterUser(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
     //Change to get every data later
-    const name = formData.get('name') as string
+    const name = formData.get('name') as string;
     const email = formData.get('email') as string
     const password = formData.get('password') as string
     const confirmPassword = formData.get('confirmpassword') as string
@@ -57,6 +57,7 @@ async function RegiterUser(e: React.FormEvent<HTMLFormElement>) {
         return { data: "SENHA INVALIDA", status: 422};
     }
     
+    const username = name.replace(/[\n\r\s\t]+/g, '')
 
     console.log(name)
     console.log(email)
@@ -67,10 +68,11 @@ async function RegiterUser(e: React.FormEvent<HTMLFormElement>) {
     try {
         
         const response = await axios.post('http://127.0.0.1:8000/api/register/', {
-            username: name,
+            username: `${username}${email}`,
             email: email,
             password: password,
             cpf: cpf,
+            full_name: name,
             date: date
         })
         console.log("trying to register user")
@@ -92,7 +94,6 @@ async function LogUser(e: React.FormEvent<HTMLFormElement>) {
     const formData = new FormData(e.currentTarget);
     const email = formData.get('email') as string;
     const password = formData.get('password') as string;
-    console.log(name)
     console.log(email)
     console.log(password)
 
@@ -107,6 +108,7 @@ async function LogUser(e: React.FormEvent<HTMLFormElement>) {
         console.log(response.data.message)
         CoockieSet("token", response.data.token)
         CoockieSet("userId", response.data.userId)
+        CoockieSet("myMail", response.data.email)
         return { data: response.data.message, status: response.status };
     } catch (err) {
         if (axios.isAxiosError(err) && err.response) {
@@ -135,6 +137,7 @@ export async function LogOut(){
         console.log(response.data.message)
         await CoockieDeleter("token")
         await CoockieDeleter("userId")
+        await CoockieDeleter("myMail")
         return { data: response.data.message, status: response.status }
     } catch (err) {
         if (axios.isAxiosError(err) && err.response) {

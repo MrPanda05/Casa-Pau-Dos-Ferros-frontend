@@ -15,12 +15,9 @@ async function AddNewAddress(e: React.FormEvent<HTMLFormElement>) {
     if(!userIdExist){
         return { data: 'userNotLogged', status: 401 };
     }
-    const userId = await CoockieGet('userId')
-
     try {
         const token = await CoockieGet("token")
         const response = await axios.post('http://127.0.0.1:8000/api/address/', {
-            user_id: Number(userId?.value),
             cep: cep,
             state: state,
             city: city,

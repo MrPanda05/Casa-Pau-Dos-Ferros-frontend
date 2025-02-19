@@ -14,7 +14,7 @@ export async function CoockieGet(coockieName: string,){
 
 export async function CoockieDeleter(coockieName: string,){
     const cookieStore = await cookies()
-    return cookieStore.delete(coockieName);
+    cookieStore.delete(coockieName);
 }
 
 

@@ -1,6 +1,12 @@
+'use server'
 import Image from "next/image"
 import Link from "next/link"
-export default function Item({productName = 'nullProduct', price, productID}: {productName: string, price:number, productID: string}){
+import { GetProductImage } from "./storeCommons";
+
+//todo change getproduct image, to change permisiton later
+export default async function Item({productName = 'nullProduct', price, productID}: {productName: string, price:number, productID: string}){
+    const { data } = await GetProductImage();
+    //console.log(data as ImageProduct)
     return(
         <div className="flex flex-col bg-slate-50 text-black text-center border-gray-950 border-4">
             <h1 className="font-bold">
@@ -9,7 +15,7 @@ export default function Item({productName = 'nullProduct', price, productID}: {p
                 </Link>
             </h1>
             <Link href={`/loja/item/${productID}`}  className="self-center">
-                <Image src='/donaldotrumpete.jpg' alt="product image" width={100} height={50}/>
+                <Image src={`data:image/png;base64,${data.results[0].base64_image}`} alt="product image" width={100} height={50} placeholder="blur" blurDataURL="/donaldotrumpete.jpg"/>
             </Link>
             <div className="flex flex-row justify-center gap-14">
                 <div>

@@ -18,9 +18,9 @@ export default function Page() {
                     Somente os melhores produtoss
                   </h1>
                   <div className="grid grid-cols-2 m-1 md:grid-cols-6">
-                  {[...Array(25)].map((_, index) => (
-                    <div key={index} className="m-1"><Item price={100} productName={`Product Test ${index}`} productID={index.toString()}/></div>
-                ))}
+                  {
+                    <div className="m-1"><Item price={100} productName={`Product Test ${1}`} productID={'1'}/></div>
+                  }
                   </div>
                 </div>
               </div>

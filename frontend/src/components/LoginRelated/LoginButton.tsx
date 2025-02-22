@@ -2,8 +2,7 @@ import Link from "next/link";
 
 //login button
 //Redicrects to the login page
-export default function LoginButton(){
-
+export default  function LoginButton(){
 
     return(
         <div>

@@ -1,3 +1,4 @@
+import { GetProductImage } from "@/components/storeRelated/storeCommons";
 import Image from "next/image"
 
 export default async function Page({
@@ -6,7 +7,7 @@ export default async function Page({
     params: Promise<{ id: string }>
   }) {
     const id = (await params).id
-    //fetch product here
+    const { data } = await GetProductImage();
     return (
       <div className="grid grid-row-2 justify-center gap-10 text-black">
         <h1 className="text-2xl font-bold text-center">
@@ -16,7 +17,7 @@ export default async function Page({
           <h1 className="font-bold text-2xl">
             Product name {id}
           </h1>
-          <Image src='/donaldotrumpete.jpg' alt="product image" width={200} height={100}/>
+          <Image src={`data:image/png;base64,${data.results[0].base64_image}`} alt="product image" width={200} height={100} placeholder="blur" blurDataURL="/donaldotrumpete.jpg"/>
         <div className="flex flex-row justify-center gap-14">
                 <div>
                     R${10000}

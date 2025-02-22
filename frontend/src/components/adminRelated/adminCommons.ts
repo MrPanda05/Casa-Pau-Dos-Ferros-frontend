@@ -3,6 +3,54 @@ import { CoockieDeleter, CoockieGet, CoockieSet } from '../common/CoockiesManege
 import { validarCPF } from '../LoginRelated/authCommons';
 
 
+async function AddProduct(e: React.FormEvent<HTMLFormElement>){
+    e.preventDefault()
+    const formData = new FormData(e.currentTarget)
+    //Change to get every data later
+    const name = formData.get('name') as string;
+    const description = formData.get('description') as string
+    const price = formData.get('price') as string
+    const amount = formData.get('amount') as string
+    const imagem = formData.get('productImage') as File;
+    const reader = new FileReader();
+    let base64Image = ""
+    reader.onload = () => {
+    base64Image = reader.result as string;
+    console.log(base64Image); 
+    };
+    
+    reader.onerror = (error) => {
+    console.error("Error reading le_gamer file", error);
+    };
+    
+    reader.readAsDataURL(imagem);
+    console.log(base64Image)
+
+    try {
+        const token = await CoockieGet("token")
+        const response = await axios.post('http://127.0.0.1:8000/product/', {
+            name: name,
+            description: description,
+            price: price,
+            amount: amount,
+            image: base64Image
+        },{
+            headers: {
+                Authorization: `token ${token?.value}`,
+            }})
+        return { data: response.data.message, status: response.status };
+    } catch (err) {
+        if (axios.isAxiosError(err) && err.response) {
+            return { data: err.response.data, status: err.response.status };
+        } else {
+            return { data: 'unknown', status: 500 };
+        }
+    }
+}
+
+
+
+
 async function AmIAdmin(){
     try {
         const token = await CoockieGet("token")
@@ -91,4 +139,4 @@ async function UpgrateToStaff(e: React.FormEvent<HTMLFormElement>){
 
 
 
-export { AmIAdmin, RegisterStaffComplete, UpgrateToStaff }
+export { AmIAdmin, RegisterStaffComplete, UpgrateToStaff, AddProduct }

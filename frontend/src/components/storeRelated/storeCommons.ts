@@ -16,7 +16,7 @@ export interface ImageProduct{
 async function GetProductImage() {
     try {
         const token = await CoockieGet("token")
-        const response = await axios.get('http://127.0.0.1:8000/product', {
+        const response = await axios.get('http://127.0.0.1:8000/product/', {
             headers: {
                 Authorization: `token ${token?.value}`,
             }})

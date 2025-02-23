@@ -74,6 +74,30 @@ async function AddCategory(e: React.FormEvent<HTMLFormElement>){
 }
 
 
+async function AddCategoryOnProduct(e: React.FormEvent<HTMLFormElement>){
+    e.preventDefault()
+    const formData = new FormData(e.currentTarget)
+    const productId = formData.get('productId') as string;
+    const categoryId = formData.get('categoryId') as string
+    try {
+        const token = await CoockieGet("token")
+        const response = await axios.post('http://127.0.0.1:8000/product_category/', {
+            category: categoryId,
+            product: productId,
+        },{
+            headers: {
+                Authorization: `token ${token?.value}`,
+            }})
+        return { data: response.data.message, status: response.status };
+    } catch (err) {
+        if (axios.isAxiosError(err) && err.response) {
+            return { data: err.response.data, status: err.response.status };
+        } else {
+            return { data: 'unknown', status: 500 };
+        }
+    }
+}
+
 
 
 async function AmIAdmin(){
@@ -164,4 +188,4 @@ async function UpgrateToStaff(e: React.FormEvent<HTMLFormElement>){
 
 
 
-export { AmIAdmin, RegisterStaffComplete, UpgrateToStaff, AddProduct, AddCategory }
+export { AmIAdmin, RegisterStaffComplete, UpgrateToStaff, AddProduct, AddCategory, AddCategoryOnProduct }

@@ -1,22 +1,31 @@
 'use client'
 import { useState } from "react";
 import { AddNewAddress } from "./userCommons";
+import Toaster from "../common/ToasterPopUp";
 export default function AddAddress(){
-    const [showError, setShowError] = useState(false);
-    const [errorStatus, setErrorStatus] = useState(200);
-    const [errorMessage, setErrorMessage] = useState("error");
+    const [messageStatus, setMessageStatus] = useState(200);
+    const [popUpMessage, setPopUpMessage] = useState("error");
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const [popUpType, setPopUpType] = useState("popupFail");
 
+    const handleClosePopup = () => {
+        setIsPopupOpen(false);
+      };
+      
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         const data = await AddNewAddress(e)
-        console.log(data.status)
         if(data.status !== 200 && data.status !== 201){
-            setShowError(true)
-            setErrorStatus(data.status)
-            setErrorMessage(data.data)
-            console.log(errorMessage)
+            setIsPopupOpen(true)
+            setPopUpType("popupFail")
+            setMessageStatus(data.status)
+            setPopUpMessage(data.data)
+            console.log(data.data)
         }
         else{
-            setShowError(false)
+            setPopUpType("popupSuccess")
+            setIsPopupOpen(true)
+            setMessageStatus(data.status)
+            setPopUpMessage("Sucesso")
         }
     }
     return(
@@ -144,10 +153,10 @@ export default function AddAddress(){
                 </div>
                 </div>
             </div>
-                {showError && (
-                <div className="self-center bg-red-800 text-white rounded-md text-sm">
-                    {errorStatus === 422 ? `Erro tipo ${errorMessage}` : `Erro inesperado generico ${errorStatus}`} | supporte CasaPauDosFerrosSuporte@gmail.com
-                </div>
+                {isPopupOpen && (
+                    <div className="self-center bg-red-800 text-white rounded-md text-sm">
+                        {<Toaster message={`${popUpMessage} | ${messageStatus} | supporte CasaPauDosFerrosSuporte@gmail.com`} onClose={handleClosePopup} isOpen={isPopupOpen} status={popUpType}/>}
+                    </div>
                 )}
             </div>
         </div>

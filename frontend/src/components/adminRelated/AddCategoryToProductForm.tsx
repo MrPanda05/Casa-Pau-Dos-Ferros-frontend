@@ -1,21 +1,31 @@
 'use client'
 import { useState } from "react";
 import { AddCategoryOnProduct } from "./adminCommons";
+import Toaster from "../common/ToasterPopUp";
 export default function AddCategoryToProductForm(){
-    const [showError, setShowError] = useState(false);
-    const [errorStatus, setErrorStatus] = useState(200);
-    const [errorMessage, setErrorMessage] = useState("error");
+    const [messageStatus, setMessageStatus] = useState(200);
+    const [popUpMessage, setPopUpMessage] = useState("error");
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const [popUpType, setPopUpType] = useState("popupFail");
+
+    const handleClosePopup = () => {
+        setIsPopupOpen(false);
+      };
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>){
         const data = await AddCategoryOnProduct(e)
         if(data.status !== 200 && data.status !== 201){
-            setShowError(true)
-            setErrorStatus(data.status)
-            setErrorMessage(data.data)
-            console.log(errorMessage)
+            setPopUpType("popupFail")
+            setMessageStatus(data.status)
+            setPopUpMessage(data.data)
+            setIsPopupOpen(true)
+            console.log(data.data)
+
         }
         else{
-            setShowError(false)
+            setPopUpType("popupSuccess")
+            setPopUpMessage("Sucesso")
+            setIsPopupOpen(true)
         }
     }
     return(
@@ -69,10 +79,10 @@ export default function AddCategoryToProductForm(){
                 </form>
                 
             </div>
-            {showError && (
-            <div className="self-center bg-red-800 text-white rounded-md text-sm">
-                Erro tipo: {errorStatus} | algo deu merda
-            </div>
+            {isPopupOpen && (
+                <div className="self-center bg-red-800 text-white rounded-md text-sm">
+                    {<Toaster message={`${popUpMessage} | ${messageStatus} | supporte CasaPauDosFerrosSuporte@gmail.com`} onClose={handleClosePopup} isOpen={isPopupOpen} status={popUpType}/>}
+                </div>
             )}
         </div>
     </div>

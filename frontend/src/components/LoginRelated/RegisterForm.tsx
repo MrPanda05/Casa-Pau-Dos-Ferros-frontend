@@ -3,25 +3,32 @@ import { ISwitch } from "./authCommons"
 import { useState } from "react";
 import { RegiterUser } from "@/components/LoginRelated/authCommons";
 import { useRouter } from "next/navigation";
+import Toaster from "../common/ToasterPopUp";
 
 export default function RegisterForm({onLoginChange: changeLogin} : ISwitch){
     const router = useRouter();
-    const [showError, setShowError] = useState(false);
-    const [errorStatus, setErrorStatus] = useState(200);
-    const [errorMessage, setErrorMessage] = useState("error");
+    const [messageStatus, setMessageStatus] = useState(200);
+    const [popUpMessage, setPopUpMessage] = useState("error");
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const [popUpType, setPopUpType] = useState("popupFail");
+
+      const handleClosePopup = () => {
+        setIsPopupOpen(false);
+      };
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-        console.log("submit handler test")
         const data = await RegiterUser(e);
-        console.log(data.status)
         if(data.status !== 200 && data.status !== 201){
-            setShowError(true)
-            setErrorStatus(data.status)
-            setErrorMessage(data.data)
-            console.log(errorMessage)
+            setPopUpType("popupFail")
+            setMessageStatus(data.status)
+            setPopUpMessage(data.data)
+            setIsPopupOpen(true)
+            console.log(data.data)
         }
         else{
-            setShowError(false)
+            setPopUpType("popupSuccess")
+            setIsPopupOpen(true)
+            setPopUpMessage("Sucesso")
             router.push(`/auth/login`);
         }
         
@@ -168,9 +175,9 @@ export default function RegisterForm({onLoginChange: changeLogin} : ISwitch){
                 <div className="text-center mt-10">
                     <button onClick={changeLogin} className="text-base text-blue-500 hover:text-blue-700">Ja possue conta?</button>
                 </div>
-                {showError && (
+                {isPopupOpen && (
                 <div className="self-center bg-red-800 text-white rounded-md text-sm">
-                    {errorStatus === 422 ? `Erro tipo ${errorMessage}` : `Erro inesperado generico ${errorStatus}`} | supporte CasaPauDosFerrosSuporte@gmail.com
+                    {<Toaster message={`${popUpMessage} | ${messageStatus} | supporte CasaPauDosFerrosSuporte@gmail.com`} onClose={handleClosePopup} isOpen={isPopupOpen} status={popUpType}/>}
                 </div>
                 )}
             </div>

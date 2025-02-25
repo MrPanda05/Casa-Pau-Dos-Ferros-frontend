@@ -4,30 +4,39 @@ import { useState } from "react";
 import { LogUser } from "@/components/LoginRelated/authCommons";
 import { useRouter } from "next/navigation";
 import { CoockieGet } from "../common/CoockiesManegers";
+import Toaster from "../common/ToasterPopUp";
 
 
 
 export default function LoginForm({onLoginChange: changeLogin} : ISwitch){
     const router = useRouter();
-    const [showError, setShowError] = useState(false);
-    const [errorStatus, setErrorStatus] = useState(200);
-    const [errorMessage, setErrorMessage] = useState("error");
+    const [messageStatus, setMessageStatus] = useState(200);
+    const [popUpMessage, setPopUpMessage] = useState("error");
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const [popUpType, setPopUpType] = useState("popupFail");
+
+      const handleClosePopup = () => {
+        setIsPopupOpen(false);
+      };
 
 
-    async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-        console.log("submit handler test")
-        const data = await LogUser(e);
-        console.log(data.status)
-        if(data.status !== 200 && data.status !== 201){
-            setShowError(true)
-            setErrorStatus(data.status)
-            setErrorMessage(data.data)
-            console.log(errorMessage)
-        }
-        else{
-            setShowError(false)
-            const userName = await CoockieGet("userId");
-            router.push(`/user/${userName?.value}`);
+      async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+          const data = await LogUser(e);
+          console.log(data.status)
+          if(data.status !== 200 && data.status !== 201){
+              setPopUpType("popupFail")
+              setMessageStatus(data.status)
+              setPopUpMessage(data.data)
+              setIsPopupOpen(true)
+              console.log(data.data)
+
+            }
+            else{
+                setPopUpType("popupSuccess")
+                setPopUpMessage("Sucesso")
+                setIsPopupOpen(true)
+                const userName = await CoockieGet("userId");
+                router.push(`/user/${userName?.value}`);
         }
     }
 
@@ -87,10 +96,10 @@ export default function LoginForm({onLoginChange: changeLogin} : ISwitch){
                 <div className="text-center mt-10">
                     <button onClick={changeLogin} className="text-base text-blue-500 hover:text-blue-700">Nao possue conta?</button>
                 </div>
-                {showError && (
-                <div className="self-center bg-red-800 text-white rounded-md">
-                    Error inesperado de tipo {errorStatus} | supporte CasaPauDosFerrosSuporte@gmail.com
-                </div>
+                {isPopupOpen && (
+                    <div className="self-center bg-red-800 text-white rounded-md text-sm">
+                        {<Toaster message={`${popUpMessage} | ${messageStatus} | supporte CasaPauDosFerrosSuporte@gmail.com`} onClose={handleClosePopup} isOpen={isPopupOpen} status={popUpType}/>}
+                    </div>
                 )}
             </div>
         </div>

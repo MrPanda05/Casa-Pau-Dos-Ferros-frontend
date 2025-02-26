@@ -16,14 +16,22 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [cartCount, setCartCount] = useState(0)
   
   const addToCart = async ({ productId }: {productId: string}) => {
-    setCartCount( (prev) => prev + 1)
     try {
-      console.log(productId)
+      setCartCount( (prev) => prev + 1)
+      console.log(productId);
       const {data} = await GetMyCart();
+      if(data.results === undefined){
+        const res = await AddMyCart(productId);
+        console.log(res.data)
+        console.log(res.status)
+        if(res.status < 200 || res.status >= 300){
+          setCartCount( (prev) => prev - 1)
+        }
+        return;
+      }
       const result = data.results.filter((x: ICartItem) => x["product"].toString() === productId.toString())// killing myself with this one
       console.log(result)
       if(result.length === 0){
-        console.log("It is not on cart")
         const res = await AddMyCart(productId);
         console.log(res.data)
         console.log(res.status)
@@ -32,7 +40,6 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         }
       }
       else{
-        console.log("It is on cart!")
         const res = await UpdateMyCartId(result[0], result[0].quantity + 1);
         console.log(res.data)
         console.log(res.status)
@@ -48,6 +55,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   const removeFromCart = async ({ productId }: {productId: string}) => {
     try {
       const { data } = await GetMyCart();
+      if(data.results === undefined) return;
       const result = data.results.filter((x: ICartItem) => x["product"].toString() === productId.toString());
       setCartCount((prev) => (prev <= 0) ? prev : prev-1);
       if (result.length > 0) {
@@ -71,6 +79,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
   const getTotalCartCount = async () => {
     const {data} = await GetMyCart();
+    if(data.results === undefined) return;
     let count = 0;
     data.results.forEach((element: ICartItem) => {
       count += Number(element.quantity);

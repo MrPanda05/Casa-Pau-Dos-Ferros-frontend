@@ -20,7 +20,7 @@ export default async function CartComp() {
                 className="flex flex-row items-center"
             >
                 <div className="px-1">Carrinho</div>
-                <CartCount />
+                {isLoged && <CartCount /> }
             </Link>
         </div>
     );

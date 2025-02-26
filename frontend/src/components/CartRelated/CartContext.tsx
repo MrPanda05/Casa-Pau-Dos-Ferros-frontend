@@ -5,6 +5,7 @@ import { AddMyCart, DeleteMyCartItem, GetMyCart, ICartItem, UpdateMyCartId } fro
   type CartContextType = {
     addToCart: ({ productId }: { productId: string }) => Promise<void>;
     removeFromCart: ({ productId }: { productId: string }) => Promise<void>
+    getTotalCartCount: () => Promise<void>;
     cartCount: number;
   };
 
@@ -68,11 +69,21 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     }
   }
 
+  const getTotalCartCount = async () => {
+    const {data} = await GetMyCart();
+    let count = 0;
+    data.results.forEach((element: ICartItem) => {
+      count += Number(element.quantity);
+    });
+    setCartCount(count);
+  }
+
     return (
       <CartContext.Provider
         value={{
           addToCart,
           removeFromCart,
+          getTotalCartCount,
           cartCount,
         }}
       >

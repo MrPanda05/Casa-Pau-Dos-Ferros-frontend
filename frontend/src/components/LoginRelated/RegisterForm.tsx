@@ -1,59 +1,55 @@
-'use client'
-import { ISwitch } from "./authCommons"
+"use client";
+import { ISwitch } from "./authCommons";
 import { useState } from "react";
 import { RegiterUser } from "@/components/LoginRelated/authCommons";
 import { useRouter } from "next/navigation";
 import Toaster from "../common/ToasterPopUp";
 
-export default function RegisterForm({onLoginChange: changeLogin} : ISwitch){
+export default function RegisterForm({ onLoginChange: changeLogin }: ISwitch) {
     const router = useRouter();
     const [messageStatus, setMessageStatus] = useState(200);
     const [popUpMessage, setPopUpMessage] = useState("error");
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [popUpType, setPopUpType] = useState("popupFail");
 
-      const handleClosePopup = () => {
+    const handleClosePopup = () => {
         setIsPopupOpen(false);
-      };
+    };
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         const data = await RegiterUser(e);
-        if(data.status !== 200 && data.status !== 201){
-            setPopUpType("popupFail")
-            setMessageStatus(data.status)
-            setPopUpMessage(data.data)
-            setIsPopupOpen(true)
-            console.log(data.data)
-        }
-        else{
-            setPopUpType("popupSuccess")
-            setIsPopupOpen(true)
-            setPopUpMessage("Sucesso")
+        if (data.status !== 200 && data.status !== 201) {
+            setPopUpType("popupFail");
+            setMessageStatus(data.status);
+            setPopUpMessage(data.data);
+            setIsPopupOpen(true);
+            console.log(data.data);
+        } else {
+            setPopUpType("popupSuccess");
+            setIsPopupOpen(true);
+            setPopUpMessage("Sucesso");
             router.push(`/auth/login`);
         }
-        
     }
     return (
         <div className="rounded-md">
             <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 text-white font-bold text-2xl/9">
-                <h1 className="text-center">
-                    Cadastre-se!
-                </h1>
+                <h1 className="text-center">Cadastre-se!</h1>
                 <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
                     <form method="POST" className="space-y-6" onSubmit={handleSubmit}>
-                    <div>
+                        <div>
                             <label htmlFor="username" className="formLabelText">
                                 Nome de Usuario
                             </label>
                             <div className="mt-2">
                                 <input
-                                id="username"
-                                name="username"
-                                type="text"
-                                required
-                                autoComplete="none"
-                                placeholder="TrumpeteGamer123"
-                                className="formInput"
+                                    id="username"
+                                    name="username"
+                                    type="text"
+                                    required
+                                    autoComplete="none"
+                                    placeholder="TrumpeteGamer123"
+                                    className="formInput"
                                 />
                             </div>
                         </div>
@@ -63,13 +59,13 @@ export default function RegisterForm({onLoginChange: changeLogin} : ISwitch){
                             </label>
                             <div className="mt-2">
                                 <input
-                                id="name"
-                                name="name"
-                                type="text"
-                                required
-                                autoComplete="none"
-                                placeholder="Trumpete"
-                                className="formInput"
+                                    id="name"
+                                    name="name"
+                                    type="text"
+                                    required
+                                    autoComplete="none"
+                                    placeholder="Trumpete"
+                                    className="formInput"
                                 />
                             </div>
                         </div>
@@ -79,42 +75,42 @@ export default function RegisterForm({onLoginChange: changeLogin} : ISwitch){
                             </label>
                             <div className="mt-2">
                                 <input
-                                id="email"
-                                name="email"
-                                type="email"
-                                required
-                                autoComplete="email"
-                                placeholder="meuemail@mail.com"
-                                className="formInput"
+                                    id="email"
+                                    name="email"
+                                    type="email"
+                                    required
+                                    autoComplete="email"
+                                    placeholder="meuemail@mail.com"
+                                    className="formInput"
                                 />
                             </div>
                         </div>
                         <div>
                             <div className="mt-2">
                                 <label htmlFor="password" className="formLabelText">
-                                Senha
+                                    Senha
                                 </label>
                             </div>
                             <div className="mt-2">
                                 <input
-                                id="password"
-                                name="password"
-                                type="password"
-                                required
-                                placeholder="***"
-                                autoComplete="current-password"
-                                className="formInput"
+                                    id="password"
+                                    name="password"
+                                    type="password"
+                                    required
+                                    placeholder="***"
+                                    autoComplete="current-password"
+                                    className="formInput"
                                 />
                             </div>
                         </div>
                         <div>
                             <div className="mt-2">
                                 <label htmlFor="confirmpassword" className="formLabelText">
-                                Confirmar senha
+                                    Confirmar senha
                                 </label>
                             </div>
-                                <div className="mt-2">
-                                    <input
+                            <div className="mt-2">
+                                <input
                                     id="confirmpassword"
                                     name="confirmpassword"
                                     type="password"
@@ -122,65 +118,76 @@ export default function RegisterForm({onLoginChange: changeLogin} : ISwitch){
                                     placeholder="***"
                                     autoComplete="current-password"
                                     className="formInput"
-                                    />
-                                </div>
+                                />
                             </div>
+                        </div>
                         <div>
                             <div className="mt-2">
                                 <label htmlFor="cpf" className="formLabelText">
-                                CPF
+                                    CPF
                                 </label>
                             </div>
                             <div className="mt-2">
                                 <input
-                                id="cpf"
-                                name="cpf"
-                                type="text"
-                                required
-                                placeholder="12345678900"
-                                autoComplete="off"
-                                className="formInput"
+                                    id="cpf"
+                                    name="cpf"
+                                    type="text"
+                                    required
+                                    placeholder="12345678900"
+                                    autoComplete="off"
+                                    className="formInput"
                                 />
                             </div>
                         </div>
                         <div>
                             <div className="mt-2">
                                 <label htmlFor="date" className="formLabelText">
-                                Data de Nascimento
+                                    Data de Nascimento
                                 </label>
                             </div>
                             <div className="mt-2">
                                 <input
-                                id="date"
-                                name="date"
-                                type="date"
-                                required
-                                placeholder="10/10/2010"
-                                autoComplete="datepickers"
-                                className="formInput"
+                                    id="date"
+                                    name="date"
+                                    type="date"
+                                    required
+                                    placeholder="10/10/2010"
+                                    autoComplete="datepickers"
+                                    className="formInput"
                                 />
                             </div>
                         </div>
                         <div>
                             <button
-                            type="submit"
-                            className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                type="submit"
+                                className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                             >
-                            Cadastrar
+                                Cadastrar
                             </button>
                         </div>
                     </form>
-                    
                 </div>
                 <div className="text-center mt-10">
-                    <button onClick={changeLogin} className="text-base text-blue-500 hover:text-blue-700">Ja possue conta?</button>
+                    <button
+                        onClick={changeLogin}
+                        className="text-base text-blue-500 hover:text-blue-700"
+                    >
+                        Ja possui conta?
+                    </button>
                 </div>
                 {isPopupOpen && (
-                <div className="self-center bg-red-800 text-white rounded-md text-sm">
-                    {<Toaster message={`${popUpMessage} | ${messageStatus} | supporte CasaPauDosFerrosSuporte@gmail.com`} onClose={handleClosePopup} isOpen={isPopupOpen} status={popUpType}/>}
-                </div>
+                    <div className="self-center bg-red-800 text-white rounded-md text-sm">
+                        {
+                            <Toaster
+                                message={`${popUpMessage} | ${messageStatus} | supporte CasaPauDosFerrosSuporte@gmail.com`}
+                                onClose={handleClosePopup}
+                                isOpen={isPopupOpen}
+                                status={popUpType}
+                            />
+                        }
+                    </div>
                 )}
             </div>
         </div>
-    )
+    );
 }

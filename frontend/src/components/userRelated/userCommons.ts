@@ -2,6 +2,20 @@ import axios from 'axios';
 import { CoockieDeleter, CoockieExist, CoockieGet, CoockieSet } from '../common/CoockiesManegers';
 
 
+
+export interface IAddress {
+    address_id: number,
+    cep: string,
+    city: string,
+    complement: string,
+    number: string,
+    state: string,
+    street: string,
+    user_id: number
+}
+
+
+
 async function AddNewAddress(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
@@ -42,4 +56,24 @@ async function AddNewAddress(e: React.FormEvent<HTMLFormElement>) {
     }
 }
 
-export { AddNewAddress }
+async function GetMyAdress(){
+    try {
+        const token = await CoockieGet("token")
+        const response = await axios.get('http://127.0.0.1:8000/address/',{
+            headers:{
+                Authorization: `token ${token?.value}`,
+            }
+        })
+        console.log(response.status)
+        console.log(response.data.message)
+        return { data: response.data, status: response.status };
+    } catch (err) {
+        if (axios.isAxiosError(err) && err.response) {
+            return { data: err.response.data, status: err.response.status };
+        } else {
+            return { data: 'unknown', status: 500 };
+        }
+    }
+}
+
+export { AddNewAddress, GetMyAdress }

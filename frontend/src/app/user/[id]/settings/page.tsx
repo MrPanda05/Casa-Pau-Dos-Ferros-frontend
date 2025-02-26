@@ -3,9 +3,10 @@
 import AddAddress from "@/components/userRelated/AddAddress";
 import { useState  } from "react";
 import { useRouter } from "next/navigation";
+import AddressesList from "@/components/userRelated/AddressList";
 export default function Page() {
   const router = useRouter();
-  const [activeSetting, setActiveSetting] = useState('addAddress');
+  const [activeSetting, setActiveSetting] = useState('addressesList');
   
     return (
       <div className="flex flex-row h-screen gap-2">
@@ -19,17 +20,17 @@ export default function Page() {
             </button>
             {/* <button className="settingsObj" onClick={() => setActiveSetting('buyHistory')}>
               Historico de compra
-            </button>
+            </button> */}
             <button className="settingsObj" onClick={() => setActiveSetting('addressesList')}>
               Meus endereços
-            </button> */}
+            </button>
           </div>
         </div>
         <div className="grid grid-flow-row  bg-slate-800 size-full rounded-md overflow-scroll overflow-x-hidden justify-center">
           <div className="">
             {activeSetting === 'addAddress' && <AddAddress />}
             {activeSetting === 'buyHistory' && <></>}
-            {activeSetting === 'addressesList' && <></>}
+            {activeSetting === 'addressesList' && <AddressesList />}
           </div>
           <div className="self-center m-1 shrink basis-1">
             <button className="blueButton" onClick={() => router.back()}>

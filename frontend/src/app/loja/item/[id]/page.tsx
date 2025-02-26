@@ -20,7 +20,6 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
                 />
                 <div className="flex flex-row justify-center gap-14">
                     <div>R${data["price"]}</div>
-                    <div>{data["amount"]}</div>
                 </div>
                 <div className="flex flex-row justify-between font-bold ">
                     <RemoveFromCartButton productId={id} />

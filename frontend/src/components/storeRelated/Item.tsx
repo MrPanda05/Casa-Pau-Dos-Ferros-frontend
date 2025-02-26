@@ -25,7 +25,7 @@ export default async function Item({ product }: { product: IProduct }) {
                 />
             </Link>
             <div className="flex flex-row justify-center gap-14">
-                <div>R${product.price}</div>
+                <div className="font-bold">R${product.price}</div>
             </div>
             <div className="flex flex-row justify-between font-bold">
                 <RemoveFromCartButton productId={product.product_id.toString()} />

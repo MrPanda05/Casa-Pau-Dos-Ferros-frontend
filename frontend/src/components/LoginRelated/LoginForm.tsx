@@ -18,12 +18,12 @@ export default function LoginForm({ onLoginChange: changeLogin }: ISwitch) {
     };
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-        const data = await LogUser(e);
+        const {data} = await LogUser(e);
         console.log(data.status);
         if (data.status !== 200 && data.status !== 201) {
             setPopUpType("popupFail");
             setMessageStatus(data.status);
-            setPopUpMessage(data.data);
+            setPopUpMessage(data.message);
             setIsPopupOpen(true);
             console.log(data.data);
         } else {
@@ -36,7 +36,7 @@ export default function LoginForm({ onLoginChange: changeLogin }: ISwitch) {
     }
 
     return (
-        <div className="rounded-md overflow-scroll">
+        <div className="rounded-md ">
             <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 text-white font-bold text-2xl/9">
                 <h1 className="text-center">Logar!</h1>
                 <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">

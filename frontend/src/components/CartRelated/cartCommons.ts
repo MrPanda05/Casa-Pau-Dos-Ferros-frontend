@@ -21,7 +21,7 @@ async function GetMyCart() {
         if (axios.isAxiosError(err) && err.response) {
             return { data: err.response.data, status: err.response.status };
         } else {
-            return { data: 'unknown', status: 500 };
+            return { data: {"message": "server error"}, status: 500 };
         }
     }
 }
@@ -41,7 +41,7 @@ async function AddMyCart(productId: string) {
         if (axios.isAxiosError(err) && err.response) {
             return { data: err.response.data, status: err.response.status };
         } else {
-            return { data: 'unknown', status: 500 };
+            return { data: {"message": "server error"}, status: 500 };
         }
     }
 }
@@ -65,7 +65,7 @@ async function UpdateMyCartId(product: ICartItem, amount: number) {
         if (axios.isAxiosError(err) && err.response) {
             return { data: err.response.data, status: err.response.status };
         } else {
-            return { data: 'unknown', status: 500 };
+            return { data: {"message": "server error"}, status: 500 };
         }
     }
 }
@@ -83,7 +83,7 @@ async function DeleteMyCartItem(product: ICartItem) {
         if (axios.isAxiosError(err) && err.response) {
             return { data: err.response.data, status: err.response.status };
         } else {
-            return { data: 'unknown', status: 500 };
+            return { data: {"message": "server error"}, status: 500 };
         }
     }
 }

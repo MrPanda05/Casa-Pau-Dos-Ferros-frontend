@@ -23,12 +23,12 @@ export default async function Page() {
                   </h1>
                   <div className="grid grid-cols-2 m-1 md:grid-cols-6">
                   {
-                    //<div className="m-1"><Item price={100} productName={`Product Test ${1}`} productID={'1'}/></div>
-                      data.results.map((_: IProduct, index: number) => (
+                    data.results !== undefined ? 
+                      data.results?.map((_: IProduct, index: number) => (
                       <div className="m-1" key={index}>
                         <Item product={data.results[index]}/>
                       </div>
-                  ))
+                  )): <div className="text-center text-red-800 text-2xl font-bold">Falha ao pegar produtos</div>
                   }
                   </div>
                 </div>

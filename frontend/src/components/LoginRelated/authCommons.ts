@@ -40,7 +40,7 @@ export function validarCPF(cpf: string): boolean  {
   };
 
 
-  function isTodayOrFuture(date: Date): boolean {
+  export function isTodayOrFuture(date: Date): boolean {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
@@ -64,16 +64,16 @@ async function RegiterUser(e: React.FormEvent<HTMLFormElement>) {
     const date = new Date(formData.get('date') as string)
     
     if(!validarCPF(cpf)){
-        return { data: "CPF INVALIDO", status: 422};
+        return { data: {"message":"cpf invalido"}, status: 422};
     }
     if(confirmPassword !== password){
-        return { data: "SENHA INVALIDA", status: 422};
+        return { data: {"message":"senha invalida"}, status: 422};
     }
     if(/\d/.test(name)){
-        return { data: "NOME NÃO PODE TER NUMERO", status: 422};
+        return { data: {"message":"nome não pode ter numeros"}, status: 422};
     }
     if(isTodayOrFuture(date)){
-        return { data: "DATA INVALIDA", status: 422};
+        return { data: {"message":"data invalida"}, status: 422};
     }
     
     const formatedDate = date.toISOString()
@@ -91,12 +91,12 @@ async function RegiterUser(e: React.FormEvent<HTMLFormElement>) {
         console.log("trying to register user")
         console.log(response.status)
         console.log(response.data.message)
-        return { data: response.data.message, status: response.status };
+        return { data: response.data, status: response.status };
     } catch (err) {
         if (axios.isAxiosError(err) && err.response) {
             return { data: err.response.data, status: err.response.status };
         } else {
-            return { data: 'unknown', status: 500 };
+            return { data: {"message": "server error"}, status: 500 };
         }
     }
 }
@@ -122,12 +122,12 @@ async function LogUser(e: React.FormEvent<HTMLFormElement>) {
         CoockieSet("token", response.data.token)
         CoockieSet("userId", response.data.userId)
         CoockieSet("myMail", response.data.email)
-        return { data: response.data.message, status: response.status };
+        return { data: response.data, status: response.status };
     } catch (err) {
         if (axios.isAxiosError(err) && err.response) {
             return { data: err.response.data, status: err.response.status };
         } else {
-            return { data: 'unknown', status: 500 };
+            return { data: {"message": "server error"}, status: 500 };
         }
         
     }
@@ -151,12 +151,12 @@ export async function LogOut(){
         await CoockieDeleter("token")
         await CoockieDeleter("userId")
         await CoockieDeleter("myMail")
-        return { data: response.data.message, status: response.status }
+        return { data: response.data, status: response.status }
     } catch (err) {
         if (axios.isAxiosError(err) && err.response) {
             return { data: err.response.data, status: err.response.status };
         } else {
-            return { data: 'unknown', status: 500 };
+            return { data: {"message": "server error"}, status: 500 };
         }
     }
   }

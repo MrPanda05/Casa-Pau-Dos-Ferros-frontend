@@ -27,7 +27,7 @@ async function AddNewAddress(e: React.FormEvent<HTMLFormElement>) {
     const complement = formData.get('complement') as string
     const userIdExist = await CoockieExist('userId')
     if(!userIdExist){
-        return { data: 'userNotLogged', status: 401 };
+        return { data: {"message": "usuario nao logado"}, status: 401 };
     }
     try {
         const token = await CoockieGet("token")
@@ -46,12 +46,12 @@ async function AddNewAddress(e: React.FormEvent<HTMLFormElement>) {
         console.log("trying to register new address")
         console.log(response.status)
         console.log(response.data.message)
-        return { data: response.data.message, status: response.status };
+        return { data: response.data, status: response.status };
     } catch (err) {
         if (axios.isAxiosError(err) && err.response) {
             return { data: err.response.data, status: err.response.status };
         } else {
-            return { data: 'unknown', status: 500 };
+            return { data: {"message": "server error"}, status: 500 };
         }
     }
 }
@@ -71,7 +71,7 @@ async function GetMyAdress(){
         if (axios.isAxiosError(err) && err.response) {
             return { data: err.response.data, status: err.response.status };
         } else {
-            return { data: 'unknown', status: 500 };
+            return { data: {"message": "server error"}, status: 500 };
         }
     }
 }

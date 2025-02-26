@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { CoockieDeleter, CoockieGet, CoockieSet } from '../common/CoockiesManegers';
-import { validarCPF } from '../LoginRelated/authCommons';
+import { isTodayOrFuture, validarCPF } from '../LoginRelated/authCommons';
 
 
 async function AddProduct(e: React.FormEvent<HTMLFormElement>){
@@ -43,7 +43,7 @@ async function AddProduct(e: React.FormEvent<HTMLFormElement>){
         if (axios.isAxiosError(err) && err.response) {
             return { data: err.response.data, status: err.response.status };
         } else {
-            return { data: 'unknown', status: 500 };
+            return { data: {"message": "server error"}, status: 500 };
         }
     }
 }
@@ -68,7 +68,7 @@ async function AddCategory(e: React.FormEvent<HTMLFormElement>){
         if (axios.isAxiosError(err) && err.response) {
             return { data: err.response.data, status: err.response.status };
         } else {
-            return { data: 'unknown', status: 500 };
+            return { data: {"message": "server error"}, status: 500 };
         }
     }
 }
@@ -93,7 +93,7 @@ async function AddCategoryOnProduct(e: React.FormEvent<HTMLFormElement>){
         if (axios.isAxiosError(err) && err.response) {
             return { data: err.response.data, status: err.response.status };
         } else {
-            return { data: 'unknown', status: 500 };
+            return { data: {"message": "server error"}, status: 500 };
         }
     }
 }
@@ -115,7 +115,7 @@ async function AmIAdmin(){
         if (axios.isAxiosError(err) && err.response) {
             return { data: err.response.data, status: err.response.status };
         } else {
-            return { data: 'unknown', status: 500 };
+            return { data: {"message": "server error"}, status: 500 };
         }
     }
 }
@@ -130,15 +130,22 @@ async function RegisterStaffComplete(e: React.FormEvent<HTMLFormElement>){
     const password = formData.get('password') as string
     const confirmPassword = formData.get('confirmpassword') as string
     const cpf = formData.get('cpf') as string
-    const date = new Date(formData.get('date') as string).toISOString()
+    const date = new Date(formData.get('date') as string)
     if(!validarCPF(cpf)){
-        return { data: "CPF INVALIDO", status: 422};
-    }
-    if(confirmPassword !== password){
-        return { data: "SENHA INVALIDA", status: 422};
-    }
+            return { data: {"message":"cpf invalido"}, status: 422};
+        }
+        if(confirmPassword !== password){
+            return { data: {"message":"senha invalida"}, status: 422};
+        }
+        if(/\d/.test(name)){
+            return { data: {"message":"nome não pode ter numeros"}, status: 422};
+        }
+        if(isTodayOrFuture(date)){
+            return { data: {"message":"data invalida"}, status: 422};
+        }
 
     username = username.replace(/[\n\r\s\t]+/g, '')
+    const formatedDate = date.toISOString()
 
     try {
         const token = await CoockieGet("token")
@@ -148,7 +155,7 @@ async function RegisterStaffComplete(e: React.FormEvent<HTMLFormElement>){
             password: password,
             cpf: cpf,
             full_name: name,
-            date: date
+            date: formatedDate
         },{
             headers: {
                 Authorization: `token ${token?.value}`,
@@ -158,7 +165,7 @@ async function RegisterStaffComplete(e: React.FormEvent<HTMLFormElement>){
         if (axios.isAxiosError(err) && err.response) {
             return { data: err.response.data, status: err.response.status };
         } else {
-            return { data: 'unknown', status: 500 };
+            return { data: {"message": "server error"}, status: 500 };
         }
     }
 }
@@ -181,7 +188,7 @@ async function UpgrateToStaff(e: React.FormEvent<HTMLFormElement>){
         if (axios.isAxiosError(err) && err.response) {
             return { data: err.response.data, status: err.response.status };
         } else {
-            return { data: 'unknown', status: 500 };
+            return { data: {"message": "server error"}, status: 500 };
         }
     }
 }

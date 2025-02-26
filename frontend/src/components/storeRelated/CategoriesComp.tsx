@@ -8,7 +8,7 @@ export default async function CategoriesComp() {
         <div className="flex flex-col justify-center gap-1">
             <h1 className="text-sm text-center font-bold mt-5 md:text-2xl">Categoria</h1>
             <div className="grid flex-row text-center gap-2 my-2">
-                {data.results.map((_: ICategory, index: number) => (
+                {data.results !== undefined ? data.results?.map((_: ICategory, index: number) => (
                     <Link
                         href={`/loja/categoria/${data.results[index].category_id}`}
                         className="text-sm md:text-lg"
@@ -16,7 +16,7 @@ export default async function CategoriesComp() {
                     >
                         Categoria {data.results[index].name}
                     </Link>
-                ))}
+                )): <div className="text-center text-red-800 text-2xl font-bold">Falha ao pegar categorias</div>}
             </div>
         </div>
     );

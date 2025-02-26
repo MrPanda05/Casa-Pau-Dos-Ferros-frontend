@@ -17,13 +17,13 @@ export default function RegisterForm({ onLoginChange: changeLogin }: ISwitch) {
     };
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-        const data = await RegiterUser(e);
+        const {data} = await RegiterUser(e);
         if (data.status !== 200 && data.status !== 201) {
             setPopUpType("popupFail");
             setMessageStatus(data.status);
-            setPopUpMessage(data.data);
+            setPopUpMessage(data.message);
             setIsPopupOpen(true);
-            console.log(data.data);
+            console.log(data);
         } else {
             setPopUpType("popupSuccess");
             setIsPopupOpen(true);

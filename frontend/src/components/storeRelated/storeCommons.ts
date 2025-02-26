@@ -24,7 +24,7 @@ async function GetAllProducts() {
         if (axios.isAxiosError(err) && err.response) {
             return { data: err.response.data, status: err.response.status };
         } else {
-            return { data: "unknown", status: 500 };
+            return { data: {"message": "server error"}, status: 500 };
         }
     }
     // try{
@@ -49,7 +49,7 @@ async function GetMyProduct(productID: string) {
         if (axios.isAxiosError(err) && err.response) {
             return { data: err.response.data, status: err.response.status };
         } else {
-            return { data: "unknown", status: 500 };
+            return { data: {"message": "server error"}, status: 500 };
         }
     }
 }
@@ -62,9 +62,23 @@ async function GetCategories() {
         if (axios.isAxiosError(err) && err.response) {
             return { data: err.response.data, status: err.response.status };
         } else {
-            return { data: "unknown", status: 500 };
+            return { data: {"message": "server error"}, status: 500 };
         }
     }
+}
+
+async function GetCategoryNameByID(categoryID: string) {
+    const {data} = await GetCategories();
+    if(data.results === undefined){
+        console.log("Error fetching data")
+        return { data: categoryID, status: 500 };
+    }
+    const category = data.results.find((element: ICategory) => element.category_id === parseInt(categoryID));
+    if(category === undefined){
+        console.log("Category does not exist")
+        return { data: categoryID, status: 404 };
+    }
+    return { data: category.name, status: 200 };
 }
 
 async function GetProductByCategory(categoryID: string) {
@@ -75,9 +89,9 @@ async function GetProductByCategory(categoryID: string) {
         if (axios.isAxiosError(err) && err.response) {
             return { data: err.response.data, status: err.response.status };
         } else {
-            return { data: "unknown", status: 500 };
+            return { data: {"message": "server error"}, status: 500 };
         }
     }
 }
 
-export { GetAllProducts, GetCategories, GetMyProduct, GetProductByCategory };
+export { GetAllProducts, GetCategories, GetMyProduct, GetProductByCategory, GetCategoryNameByID };

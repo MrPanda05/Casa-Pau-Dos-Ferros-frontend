@@ -31,9 +31,9 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}
       >
         <main className=" flex-1 flex flex-col mx-2 my-2"> {/*bg-yellow-200*/}
-          <CartProvider>
-            {children}
-          </CartProvider>
+            <CartProvider>
+              {children}
+            </CartProvider>
         </main>
         <Footer />
       </body>

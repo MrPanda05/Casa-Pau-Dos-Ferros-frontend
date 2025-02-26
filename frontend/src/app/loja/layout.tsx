@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 
 
 export const metadata: Metadata = {
-  title: "Loja | Casa Pau dos feros",
+  title: "Loja | Casa Pau dos ferros",
   description: "Loja cheia de produtos esperando por você!",
 };
 export default function LojaLayout({

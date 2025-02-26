@@ -40,6 +40,17 @@ export function validarCPF(cpf: string): boolean  {
   };
 
 
+  function isTodayOrFuture(date: Date): boolean {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const givenDate = new Date(date);
+    givenDate.setHours(0, 0, 0, 0);
+
+    return givenDate >= today;
+}
+
+
 async function RegiterUser(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
@@ -50,14 +61,22 @@ async function RegiterUser(e: React.FormEvent<HTMLFormElement>) {
     const password = formData.get('password') as string
     const confirmPassword = formData.get('confirmpassword') as string
     const cpf = formData.get('cpf') as string
-    const date = new Date(formData.get('date') as string).toISOString()
+    const date = new Date(formData.get('date') as string)
+    
     if(!validarCPF(cpf)){
         return { data: "CPF INVALIDO", status: 422};
     }
     if(confirmPassword !== password){
         return { data: "SENHA INVALIDA", status: 422};
     }
+    if(/\d/.test(name)){
+        return { data: "NOME NÃO PODE TER NUMERO", status: 422};
+    }
+    if(isTodayOrFuture(date)){
+        return { data: "DATA INVALIDA", status: 422};
+    }
     
+    const formatedDate = date.toISOString()
     username = username.replace(/[\n\r\s\t]+/g, '')
     try {
         
@@ -67,7 +86,7 @@ async function RegiterUser(e: React.FormEvent<HTMLFormElement>) {
             password: password,
             cpf: cpf,
             full_name: name,
-            date: date
+            date: formatedDate
         })
         console.log("trying to register user")
         console.log(response.status)

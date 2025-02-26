@@ -1,43 +1,31 @@
-import { GetProductImage } from "@/components/storeRelated/storeCommons";
-import Image from "next/image"
+import { AddToCartButton, RemoveFromCartButton } from "@/components/CartRelated/CartButtons";
+import { GetMyProduct } from "@/components/storeRelated/storeCommons";
+import Image from "next/image";
 
-export default async function Page({
-    params,
-  }: {
-    params: Promise<{ id: string }>
-  }) {
-    const id = (await params).id
-    const { data } = await GetProductImage();
+export default async function Page({ params }: { params: Promise<{ id: string }> }) {
+    const id = (await params).id;
+    const { data } = await GetMyProduct(id);
     return (
-      <div className="grid grid-row-2 justify-center gap-10 text-black">
-        <h1 className="text-2xl font-bold text-center">
-          I am producto
-        </h1>
-        <div className="bg-white size-[50rem] mb-10 grid grid-rows-3 justify-center">
-          <h1 className="font-bold text-2xl">
-            Product name {id}
-          </h1>
-          <Image src={`data:image/png;base64,${data.results[0].base64_image}`} alt="product image" width={200} height={100} placeholder="blur" blurDataURL="/donaldotrumpete.jpg"/>
-        <div className="flex flex-row justify-center gap-14">
-                <div>
-                    R${10000}
+        <div className="grid grid-row-2 justify-center gap-10 text-black">
+            <h1 className="text-2xl font-bold text-center text-white">{data["name"]}</h1>
+            <div className="bg-white size-[50rem] mb-10 grid grid-rows-3 justify-center">
+                <h1 className="font-bold text-2xl">{data["name"]}</h1>
+                <Image
+                    src={`data:image/png;base64,${data["base64_image"]}`}
+                    alt="product image"
+                    width={200}
+                    height={100}
+                    placeholder="blur"
+                    blurDataURL="/donaldotrumpete.jpg"
+                />
+                <div className="flex flex-row justify-center gap-14">
+                    <div>R${data["price"]}</div>
                 </div>
-                <div>
-                    1
-                </div>
-            </div>
-            <div className="flex flex-row justify-between font-bold ">
-                <div className="m-1">
-                    <button className="bg-green-600 hover:bg-green-700 active:bg-green-500 rounded-full p-1 px-4">
-                        -
-                    </button>
-                </div>
-                <div className="m-1">
-                    <button className="bg-green-600 hover:bg-green-700 active:bg-green-500 rounded-full p-1 px-4">
-                        +
-                    </button>
+                <div className="flex flex-row justify-between font-bold ">
+                    <RemoveFromCartButton productId={id} />
+                    <AddToCartButton productId={id} />
                 </div>
             </div>
         </div>
-      </div>)
-  }
+    );
+}

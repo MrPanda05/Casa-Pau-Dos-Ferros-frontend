@@ -1,11 +1,19 @@
 import { GetProductsOfMyCart, ICartItem } from "@/components/CartRelated/cartCommons";
 import CartItem from "@/components/CartRelated/CartItem";
-import { CoockieGet } from "@/components/common/CoockiesManegers";
+import { CoockieExist, CoockieGet } from "@/components/common/CoockiesManegers";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
-export default async function Page() {
+export default async function Page({ params }: { params: { id: string } }) {
   const {data} = await GetProductsOfMyCart()
   const userId = await CoockieGet("userId")
+  const token = await CoockieExist("token");
+  if (!token) {
+      redirect("/auth/login");
+  }
+  if(params.id !== userId?.value){
+      redirect(`/user/${userId?.value}/cart`)
+  }
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
       <div className="w-full max-w-2xl bg-slate-600 rounded-lg shadow-lg p-6">

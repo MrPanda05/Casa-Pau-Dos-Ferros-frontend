@@ -14,7 +14,7 @@ export function middleware(request: NextRequest) {
   return NextResponse.redirect(new URL('/', request.url))
 }
 export const config = {
-    matcher: ['/user', '/loja/item', '/auth'],
+    matcher: ['/user', '/loja/item', '/auth', '/loja/categoria'],
   }
  
 //todo mudar para que a seja redicerionado a loja se estiver no item

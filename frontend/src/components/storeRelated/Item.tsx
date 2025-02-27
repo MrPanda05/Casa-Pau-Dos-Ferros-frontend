@@ -7,7 +7,7 @@ import { IProduct } from "./storeCommons";
 //todo change getproduct image, to change permisiton later
 export default async function Item({ product }: { product: IProduct }) {
     return (
-        <div className="flex flex-col bg-slate-50 text-black text-center border-gray-950 border-4">
+        <div className="flex flex-col  text-black text-center border-gray-950 border-4 rounded-md bg-blue-200">
             <h1 className="font-bold">
                 <Link href={`/loja/item/${product.product_id}`} className="self-center">
                     {product.name}

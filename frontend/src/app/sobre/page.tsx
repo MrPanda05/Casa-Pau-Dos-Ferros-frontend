@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function Page(){
     return(
-        <div className="grid grid-rows-3">
+        <div className="grid grid-rows-4">
             <h1 className="text-3xl m-10 text-center">
                 Sobre
             </h1>
@@ -14,6 +14,14 @@ export default function Page(){
             </div>
             <div className="text-center">
                 A historia da casa pau dos ferros e muito interessante, pois ela foi fundada por um homem que vendeu o mundo
+            </div>
+            <div>
+                <h2 className="text-2xl m-10 text-center">
+                    Politica de reembolso
+                </h2>
+                <div className="text-center">
+                    Carrinhos de compras com um total de menos de 100 não serão re-embolsados
+                </div>
             </div>
         </div>
     )

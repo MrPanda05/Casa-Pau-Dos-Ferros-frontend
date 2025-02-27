@@ -8,6 +8,16 @@ export interface ICartItem{
     quantity: string
 }
 
+export interface IHistoryOrder{
+    oder_id: string,
+    cart: string,
+    user_address: string,
+    payment_method: string,
+    total: string,
+    status: number
+
+}
+
 async function GetMyCart() {
     try {
         const token = await CoockieGet("token")
@@ -133,4 +143,45 @@ async function ConfirmMyCart(e: React.FormEvent<HTMLFormElement>){
     }
 
 }
-export {GetMyCart, UpdateMyCartId, AddMyCart, DeleteMyCartItem, ConfirmMyCart, GetProductsOfMyCart}
+
+async function OrderDevolution(oderId: number) {
+    try {
+        const token = await CoockieGet("token")
+        const response = await axios.post('http://127.0.0.1:8000/api/devolution/',{
+            order_id: oderId
+        }, {
+            headers: {
+                Authorization: `token ${token?.value}`,
+            }})
+        return { data: response.data, status: response.status };
+        
+    } catch (err) {
+        if (axios.isAxiosError(err) && err.response) {
+            return { data: err.response.data, status: err.response.status };
+        } else {
+            return { data: {"message": "server error"}, status: 500 };
+        }
+    }
+}
+
+
+
+async function GetMyOrderHistory(){
+    try {
+        const token = await CoockieGet("token")
+        const response = await axios.get('http://127.0.0.1:8000/api/order/',{
+            headers: {
+                Authorization: `token ${token?.value}`,
+            }})
+        return { data: response.data, status: response.status };
+        
+    } catch (err) {
+        if (axios.isAxiosError(err) && err.response) {
+            return { data: err.response.data, status: err.response.status };
+        } else {
+            return { data: {"message": "server error"}, status: 500 };
+        }
+    }
+}
+
+export {GetMyCart, UpdateMyCartId, AddMyCart, DeleteMyCartItem, ConfirmMyCart, GetProductsOfMyCart, GetMyOrderHistory, OrderDevolution}

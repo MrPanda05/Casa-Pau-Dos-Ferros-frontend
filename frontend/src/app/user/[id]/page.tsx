@@ -1,6 +1,6 @@
 "use server";
 import { AmIAdmin } from "@/components/adminRelated/adminCommons";
-import { CoockieExist } from "@/components/common/CoockiesManegers";
+import { CoockieExist, CoockieGet } from "@/components/common/CoockiesManegers";
 import LogOutButton from "@/components/LoginRelated/LogOutButton";
 import Avatar from "@/components/userRelated/Avatar";
 import Link from "next/link";
@@ -8,10 +8,15 @@ import { redirect } from "next/navigation";
 
 export default async function Page({ params }: { params: Promise<{ id: string }> }) {
     const userID = (await params).id;
+    const coockieId = await CoockieGet("userId");
     const token = await CoockieExist("token");
     if (!token) {
         redirect("/auth/login");
     }
+    if(userID !== coockieId?.value){
+        redirect(`/user/${coockieId?.value}/`)
+    }
+
 
     const data = await AmIAdmin();
     const isAdmin = data.status === 403 ? false : true;

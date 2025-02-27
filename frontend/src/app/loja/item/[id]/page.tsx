@@ -8,7 +8,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
     return (
         <div className="grid grid-row-3 justify-center gap-10 text-black">
             <h1 className="text-2xl font-bold text-center text-white mt-5">{data["name"]}</h1>
-            <div className="bg-white size-96 grid grid-rows-3 justify-center">
+            <div className="border-cyan-500 border-4 rounded-md bg-blue-200 size-96 grid grid-rows-3 justify-center">
                 <Image
                     src={`data:image/png;base64,${data["base64_image"]}`}
                     alt="product image"
@@ -33,7 +33,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
             </div>
             <div>
                 <div className="text-center text-white font-bold">Descrição</div>
-                <div className="bg-white text-black text-center">{data["description"]}</div>
+                <div className="bg-white text-black text-center border-cyan-500 border-4 rounded-md">{data["description"]}</div>
             </div>
         </div>
     );

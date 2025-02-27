@@ -25,6 +25,24 @@ async function GetMyCart() {
         }
     }
 }
+
+async function GetProductsOfMyCart() {
+    try {
+        const token = await CoockieGet("token")
+        const response = await axios.get('http://127.0.0.1:8000/api/cart/', {
+            headers: {
+                Authorization: `token ${token?.value}`,
+            }})
+        return { data: response.data, status: response.status };
+        
+    } catch (err) {
+        if (axios.isAxiosError(err) && err.response) {
+            return { data: err.response.data, status: err.response.status };
+        } else {
+            return { data: {"message": "server error"}, status: 500 };
+        }
+    }
+}
 async function AddMyCart(productId: string) {
     try {
         const token = await CoockieGet("token")
@@ -87,4 +105,32 @@ async function DeleteMyCartItem(product: ICartItem) {
         }
     }
 }
-export {GetMyCart, UpdateMyCartId, AddMyCart, DeleteMyCartItem}
+
+async function ConfirmMyCart(e: React.FormEvent<HTMLFormElement>){
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget)
+    const payment = formData.get('payment') as string;
+    const address = formData.get('address') as string
+    //add check to address
+    console.log(payment)
+    try {
+        const token = await CoockieGet("token")
+        const response = await axios.post('http://127.0.0.1:8000/api/confirm/',{
+            user_address: address,
+            payment_method: payment
+        }, {
+            headers: {
+                Authorization: `token ${token?.value}`,
+            }})
+        return { data: response.data, status: response.status };
+        
+    } catch (err) {
+        if (axios.isAxiosError(err) && err.response) {
+            return { data: err.response.data, status: err.response.status };
+        } else {
+            return { data: {"message": "server error"}, status: 500 };
+        }
+    }
+
+}
+export {GetMyCart, UpdateMyCartId, AddMyCart, DeleteMyCartItem, ConfirmMyCart, GetProductsOfMyCart}

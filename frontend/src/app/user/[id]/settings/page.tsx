@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import AddressesList from "@/components/userRelated/AddressList";
 export default function Page() {
   const router = useRouter();
-  const [activeSetting, setActiveSetting] = useState('addressesList');
+  const [activeSetting, setActiveSetting] = useState('addAddress');
   
     return (
       <div className="flex flex-row h-screen gap-2">

@@ -22,10 +22,14 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
                 <div className="mt-20 text-center font-bold">
                     <div>R${data["price"]}</div>
                 </div>
+                {Number(data["amount"]) <= 0 ? <div className="m-1 font-bold text-red-800">
+                <p className="p-1 px-4 text-center">Esgotado</p>
+                </div> :
                 <div className="flex flex-row justify-between font-bold mt-10">
                     <RemoveFromCartButton productId={id} />
                     <AddToCartButton productId={id} />
                 </div>
+                }
             </div>
             <div>
                 <div className="text-center text-white font-bold">Descrição</div>

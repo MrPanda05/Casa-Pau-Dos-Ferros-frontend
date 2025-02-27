@@ -12,26 +12,34 @@ export default function LoginForm({ onLoginChange: changeLogin }: ISwitch) {
     const [popUpMessage, setPopUpMessage] = useState("error");
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [popUpType, setPopUpType] = useState("popupFail");
+    const [isLoggingIn, setIsLoggingIn] = useState(false);
 
     const handleClosePopup = () => {
         setIsPopupOpen(false);
     };
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-        const {data} = await LogUser(e);
-        console.log(data.status);
-        if (data.status !== 200 && data.status !== 201) {
-            setPopUpType("popupFail");
-            setMessageStatus(data.status);
-            setPopUpMessage(data.message);
-            setIsPopupOpen(true);
-            console.log(data.data);
-        } else {
-            setPopUpType("popupSuccess");
-            setPopUpMessage("Sucesso");
-            setIsPopupOpen(true);
-            const userName = await CoockieGet("userId");
-            router.push(`/user/${userName?.value}`);
+        setIsLoggingIn(true);
+        try {      
+            const {data, status} = await LogUser(e);
+            if(status !== 200 && status !== 201){
+                setPopUpType("popupFail")
+                setMessageStatus(status)
+                setPopUpMessage(data.message)
+                setIsPopupOpen(true)
+                console.log(data)
+            }
+            else {
+                setPopUpType("popupSuccess");
+                setPopUpMessage("Sucesso");
+                setIsPopupOpen(true);
+                const userName = await CoockieGet("userId");
+                router.push(`/user/${userName?.value}`);
+            }
+        } catch (error) {
+            console.log(error)
+        } finally{
+            setIsLoggingIn(false);
         }
     }
 
@@ -78,7 +86,7 @@ export default function LoginForm({ onLoginChange: changeLogin }: ISwitch) {
                         <div>
                             <button
                                 type="submit"
-                                className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                className="submitButton"
                             >
                                 Logar
                             </button>
@@ -88,6 +96,7 @@ export default function LoginForm({ onLoginChange: changeLogin }: ISwitch) {
                 <div className="text-center mt-10">
                     <button
                         onClick={changeLogin}
+                        disabled={isLoggingIn}
                         className="text-base text-blue-500 hover:text-blue-700"
                     >
                         Nao possui conta?

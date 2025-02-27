@@ -26,6 +26,20 @@ async function AddProduct(e: React.FormEvent<HTMLFormElement>){
     reader.readAsDataURL(imagem);
     console.log(base64Image)
 
+
+    if(Number(price) <= 0){
+        return { data: {"message":"preço invalido"}, status: 422};
+    }
+    if(Number(amount) < 0){
+        return { data: {"message":"stock não pode ser negativo"}, status: 422};
+    }
+    if(!(/^[0-9]+$/.test(amount))){
+        return { data: {"message":"stock não pode ter letras"}, status: 422};
+    }
+    if(!(/^[0-9]+$/.test(price))){
+        return { data: {"message":"preço não pode ter letras"}, status: 422};
+    }
+
     try {
         const token = await CoockieGet("token")
         const response = await axios.post('http://127.0.0.1:8000/product/', {

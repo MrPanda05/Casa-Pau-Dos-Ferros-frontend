@@ -1,6 +1,7 @@
 'use client'
 import { useEffect, useState } from "react"
 import { GetMyAdress, IAddress } from "./userCommons"
+import SinglyAdress from "./SinglyAdress"
 
 export default function AddressesList(){
     const [addresses, setAddresses] = useState<IAddress[]>([])
@@ -24,7 +25,8 @@ export default function AddressesList(){
             <div className="full-size">
                 <div className="grid grid-cols-3 gap-28 m-1 text-center justify-center">
                     {addresses !== undefined ? addresses.map((_: IAddress, index: number) => (
-                        <div key={index}>{addresses[index].cep}</div>
+                        <SinglyAdress key={index} cep={addresses[index].cep} address_id={addresses[index].address_id} city={addresses[index].city} number={addresses[index].number}
+                        state={addresses[index].state} street={addresses[index].street}/> 
                     )): <div className="self-center justify-self-center place-self-center">Nenhum endereco registrado</div>}
                 </div>
             </div>

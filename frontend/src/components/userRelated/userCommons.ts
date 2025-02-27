@@ -29,6 +29,15 @@ async function AddNewAddress(e: React.FormEvent<HTMLFormElement>) {
     if(!userIdExist){
         return { data: {"message": "usuario nao logado"}, status: 401 };
     }
+    if(/\d/.test(state)){
+        return { data: {"message":"estado não pode ter numeros"}, status: 422};
+    }
+    if(/\d/.test(city)){
+        return { data: {"message":"cidade não pode ter numeros"}, status: 422};
+    }
+    if(!(/^[0-9]+$/.test(cep))){
+        return { data: {"message":"cep não pode ter letras"}, status: 422};
+    }
     try {
         const token = await CoockieGet("token")
         const response = await axios.post('http://127.0.0.1:8000/api/address/', {

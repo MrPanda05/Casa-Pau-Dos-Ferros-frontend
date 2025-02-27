@@ -25,12 +25,16 @@ export default async function Item({ product }: { product: IProduct }) {
                 />
             </Link>
             <div className="flex flex-row justify-center gap-14">
-                <div>R${product.price}</div>
+                <div className="font-bold">R${product.price}</div>
             </div>
-            <div className="flex flex-row justify-between font-bold">
-                <RemoveFromCartButton productId={product.product_id.toString()} />
-                <AddToCartButton productId={product.product_id.toString()} />
-            </div>
+            {Number(product.amount) <= 0 ? <div className="m-1 font-bold text-red-800">
+                <p className="p-1 px-4">Esgotado</p>
+                </div> :
+                <div className="flex flex-row justify-between font-bold">
+                    <RemoveFromCartButton productId={product.product_id.toString()} />
+                    <AddToCartButton productId={product.product_id.toString()} />
+                </div>
+            }
         </div>
     );
 }

@@ -2,6 +2,20 @@ import axios from 'axios';
 import { CoockieDeleter, CoockieExist, CoockieGet, CoockieSet } from '../common/CoockiesManegers';
 
 
+
+export interface IAddress {
+    address_id: number,
+    cep: string,
+    city: string,
+    complement: string,
+    number: string,
+    state: string,
+    street: string,
+    user_id: number
+}
+
+
+
 async function AddNewAddress(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
@@ -13,7 +27,16 @@ async function AddNewAddress(e: React.FormEvent<HTMLFormElement>) {
     const complement = formData.get('complement') as string
     const userIdExist = await CoockieExist('userId')
     if(!userIdExist){
-        return { data: 'userNotLogged', status: 401 };
+        return { data: {"message": "usuario nao logado"}, status: 401 };
+    }
+    if(/\d/.test(state)){
+        return { data: {"message":"estado não pode ter numeros"}, status: 422};
+    }
+    if(/\d/.test(city)){
+        return { data: {"message":"cidade não pode ter numeros"}, status: 422};
+    }
+    if(!(/^[0-9]+$/.test(cep))){
+        return { data: {"message":"cep não pode ter letras"}, status: 422};
     }
     try {
         const token = await CoockieGet("token")
@@ -32,14 +55,34 @@ async function AddNewAddress(e: React.FormEvent<HTMLFormElement>) {
         console.log("trying to register new address")
         console.log(response.status)
         console.log(response.data.message)
-        return { data: response.data.message, status: response.status };
+        return { data: response.data, status: response.status };
     } catch (err) {
         if (axios.isAxiosError(err) && err.response) {
             return { data: err.response.data, status: err.response.status };
         } else {
-            return { data: 'unknown', status: 500 };
+            return { data: {"message": "server error"}, status: 500 };
         }
     }
 }
 
-export { AddNewAddress }
+async function GetMyAdress(){
+    try {
+        const token = await CoockieGet("token")
+        const response = await axios.get('http://127.0.0.1:8000/address/',{
+            headers:{
+                Authorization: `token ${token?.value}`,
+            }
+        })
+        console.log(response.status)
+        console.log(response.data.message)
+        return { data: response.data, status: response.status };
+    } catch (err) {
+        if (axios.isAxiosError(err) && err.response) {
+            return { data: err.response.data, status: err.response.status };
+        } else {
+            return { data: {"message": "server error"}, status: 500 };
+        }
+    }
+}
+
+export { AddNewAddress, GetMyAdress }

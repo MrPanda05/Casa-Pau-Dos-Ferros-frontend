@@ -6,6 +6,7 @@ import { AddMyCart, DeleteMyCartItem, GetMyCart, ICartItem, UpdateMyCartId } fro
     addToCart: ({ productId }: { productId: string }) => Promise<void>;
     removeFromCart: ({ productId }: { productId: string }) => Promise<void>
     getTotalCartCount: () => Promise<void>;
+    clearCount: () => void;
     cartCount: number;
   };
 
@@ -87,12 +88,17 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     setCartCount(count);
   }
 
+  const clearCount = () => {
+    setCartCount(0);
+  }
+
     return (
       <CartContext.Provider
         value={{
           addToCart,
           removeFromCart,
           getTotalCartCount,
+          clearCount,
           cartCount,
         }}
       >

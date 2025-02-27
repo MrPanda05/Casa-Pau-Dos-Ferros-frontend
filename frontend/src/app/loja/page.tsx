@@ -1,10 +1,12 @@
 'use server'
+import PaginationButtons from "@/components/common/PaginationButtons";
 import CategoriesComp from "@/components/storeRelated/CategoriesComp";
 import Item from "@/components/storeRelated/Item";
 import { GetAllProducts, IProduct } from "@/components/storeRelated/storeCommons";
-export default async function Page() {
-  const { data } = await GetAllProducts()
-  //console.log(data)
+export default async function Page({ searchParams }: { searchParams: { page?: string } }) {
+  const page = Number(searchParams.page) || 1;
+  const { data } = await GetAllProducts(page)
+  console.log(data)
   return (
     <div className="flex flex-col">
         <h1 className="text-center text-2xl font-bold">
@@ -23,14 +25,15 @@ export default async function Page() {
                   </h1>
                   <div className="grid grid-cols-2 m-1 md:grid-cols-6">
                   {
-                    //<div className="m-1"><Item price={100} productName={`Product Test ${1}`} productID={'1'}/></div>
-                      data.results.map((_: IProduct, index: number) => (
+                    data.results !== undefined ? 
+                      data.results?.map((_: IProduct, index: number) => (
                       <div className="m-1" key={index}>
                         <Item product={data.results[index]}/>
                       </div>
-                  ))
+                  )): <div className="text-center text-red-800 text-2xl font-bold">Falha ao pegar produtos</div>
                   }
                   </div>
+                 <PaginationButtons  currentPage={page} hasNextPage={!!data.next} hasPrevPage={!!data.previous}/>
                 </div>
               </div>
             </div>

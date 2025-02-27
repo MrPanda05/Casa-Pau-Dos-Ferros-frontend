@@ -97,4 +97,38 @@ body {
   @apply bg-yellow-400;
 }
 
+.submitButton{
+  @apply flex;
+  @apply w-full;
+  @apply justify-center;
+  @apply rounded-md; 
+  @apply bg-indigo-600; 
+  @apply px-3; 
+  @apply py-1.5; 
+  @apply text-sm/6; 
+  @apply font-semibold; 
+  @apply text-white; 
+  @apply shadow-lg; 
+  @apply hover:bg-indigo-500; 
+  @apply focus-visible:outline-2; 
+  @apply focus-visible:outline-offset-2; 
+  @apply focus-visible:outline-indigo-600; 
+  @apply disabled:bg-indigo-300;
+}
 
+.paginationButton{
+  @apply justify-center;
+  @apply rounded-md; 
+  @apply bg-indigo-600; 
+  @apply px-3; 
+  @apply py-1.5; 
+  @apply text-sm/6; 
+  @apply font-bold; 
+  @apply text-white; 
+  @apply shadow-lg; 
+  @apply hover:bg-indigo-500; 
+  @apply focus-visible:outline-2; 
+  @apply focus-visible:outline-offset-2; 
+  @apply focus-visible:outline-indigo-600; 
+  @apply disabled:bg-indigo-300;
+}

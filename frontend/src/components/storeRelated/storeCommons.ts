@@ -10,35 +10,34 @@ export interface IProduct {
     base64_image: string;
 }
 
+export interface ICartItem{
+    product_id: number;
+    name: string;
+    description: string;
+    price: string;
+    amount: string;
+    image: string;
+    base64_image: string;
+    quantity: number;
+}
+
 export interface ICategory {
     category_id: number;
     name: string;
     description: string;
 }
 
-async function GetAllProducts() {
+async function GetAllProducts(pageNum = 1) {
     try {
-        const response = await axios.get("http://127.0.0.1:8000/product/");
+        const response = await axios.get(`http://127.0.0.1:8000/product/?page=${pageNum}`);
         return { data: response.data, status: response.status };
     } catch (err) {
         if (axios.isAxiosError(err) && err.response) {
             return { data: err.response.data, status: err.response.status };
         } else {
-            return { data: "unknown", status: 500 };
+            return { data: {"message": "server error"}, status: 500 };
         }
     }
-    // try{
-    //     const token = await CoockieGet("token")
-    //     const response = await fetch('http://127.0.0.1:8000/product', {
-    //         headers: {
-    //             Authorization: `token ${token?.value}`,
-    //         }
-    //     })
-    //     return response.json()
-    // }
-    // catch(err){
-    //     console.log(err)
-    //}
 }
 
 async function GetMyProduct(productID: string) {
@@ -49,7 +48,7 @@ async function GetMyProduct(productID: string) {
         if (axios.isAxiosError(err) && err.response) {
             return { data: err.response.data, status: err.response.status };
         } else {
-            return { data: "unknown", status: 500 };
+            return { data: {"message": "server error"}, status: 500 };
         }
     }
 }
@@ -62,22 +61,36 @@ async function GetCategories() {
         if (axios.isAxiosError(err) && err.response) {
             return { data: err.response.data, status: err.response.status };
         } else {
-            return { data: "unknown", status: 500 };
+            return { data: {"message": "server error"}, status: 500 };
         }
     }
 }
 
-async function GetProductByCategory(categoryID: string) {
+async function GetCategoryNameByID(categoryID: string) {
+    const {data} = await GetCategories();
+    if(data.results === undefined){
+        console.log("Error fetching data")
+        return { data: categoryID, status: 500 };
+    }
+    const category = data.results.find((element: ICategory) => element.category_id === parseInt(categoryID));
+    if(category === undefined){
+        console.log("Category does not exist")
+        return { data: categoryID, status: 404 };
+    }
+    return { data: category.name, status: 200 };
+}
+
+async function GetProductByCategory(categoryID: string, pageNum = 1) {
     try {
-        const response = await axios.get(`http://127.0.0.1:8000/api/product/${categoryID}`);
+        const response = await axios.get(`http://127.0.0.1:8000/api/product/${categoryID}?page=${pageNum}`);
         return { data: response.data, status: response.status };
     } catch (err) {
         if (axios.isAxiosError(err) && err.response) {
             return { data: err.response.data, status: err.response.status };
         } else {
-            return { data: "unknown", status: 500 };
+            return { data: {"message": "server error"}, status: 500 };
         }
     }
 }
 
-export { GetAllProducts, GetCategories, GetMyProduct, GetProductByCategory };
+export { GetAllProducts, GetCategories, GetMyProduct, GetProductByCategory, GetCategoryNameByID };

@@ -8,24 +8,32 @@ export default function UpdateStaff(){
     const [popUpMessage, setPopUpMessage] = useState("error");
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [popUpType, setPopUpType] = useState("popupFail");
+    const [isUpdating, setIsUpdating] = useState(false);
 
     const handleClosePopup = () => {
         setIsPopupOpen(false);
     };
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>){
-        const data = await UpgrateToStaff(e)
-        if(data.status !== 200 && data.status !== 201){
-            setPopUpType("popupFail")
-            setMessageStatus(data.status)
-            setPopUpMessage(data.data)
-            setIsPopupOpen(true)
-            console.log(data.data)
-        }
-        else{
-            setPopUpType("popupSuccess")
-            setPopUpMessage("Sucesso")
-            setIsPopupOpen(true)
+        setIsUpdating(true)
+        try {
+            const {data, status} = await UpgrateToStaff(e)
+            if(status !== 200 && status !== 201){
+                setPopUpType("popupFail")
+                setMessageStatus(status)
+                setPopUpMessage(data.message)
+                setIsPopupOpen(true)
+                console.log(data)
+            }
+            else{
+                setPopUpType("popupSuccess")
+                setPopUpMessage("Sucesso")
+                setIsPopupOpen(true)
+            }
+        } catch (error) {
+            console.log(error)
+        }finally{
+            setIsUpdating(false)
         }
     }
     return(
@@ -54,8 +62,9 @@ export default function UpdateStaff(){
                     </div>
                     <div>
                         <button
+                        disabled={isUpdating}
                         type="submit"
-                        className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                        className="submitButton"
                         >
                         Confirmar
                         </button>

@@ -8,25 +8,33 @@ export default function AddCategoryForm(){
     const [popUpMessage, setPopUpMessage] = useState("error");
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [popUpType, setPopUpType] = useState("popupFail");
+    const [isAddingCategory, setIsAddingCategory] = useState(false);
 
       const handleClosePopup = () => {
         setIsPopupOpen(false);
       };
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>){
-        const data = await AddCategory(e)
-        if(data.status !== 200 && data.status !== 201){
-            setPopUpType("popupFail")
-            setMessageStatus(data.status)
-            setPopUpMessage(data.data)
-            setIsPopupOpen(true)
-            console.log(data.data)
-
-        }
-        else{
-            setPopUpType("popupSuccess")
-            setPopUpMessage("Sucesso")
-            setIsPopupOpen(true)
+        setIsAddingCategory(true)
+        try {
+            const {data, status} = await AddCategory(e)
+            if(status !== 200 && status !== 201){
+                setPopUpType("popupFail")
+                setMessageStatus(status)
+                setPopUpMessage(data.message)
+                setIsPopupOpen(true)
+                console.log(data)
+            }
+            else{
+                setPopUpType("popupSuccess")
+                setPopUpMessage("Sucesso")
+                setIsPopupOpen(true)
+            }
+            
+        } catch (error) {
+            console.log(error)
+        }finally{
+            setIsAddingCategory(false)
         }
     }
     return(
@@ -72,7 +80,8 @@ export default function AddCategoryForm(){
                     <div>
                         <button
                         type="submit"
-                        className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                        className="submitButton"
+                        disabled={isAddingCategory}
                         >
                         Cadastrar categoria
                         </button>

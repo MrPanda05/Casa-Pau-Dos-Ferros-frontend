@@ -10,6 +10,17 @@ export interface IProduct {
     base64_image: string;
 }
 
+export interface ICartItem{
+    product_id: number;
+    name: string;
+    description: string;
+    price: string;
+    amount: string;
+    image: string;
+    base64_image: string;
+    quantity: number;
+}
+
 export interface ICategory {
     category_id: number;
     name: string;

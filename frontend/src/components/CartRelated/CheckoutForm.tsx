@@ -79,7 +79,7 @@ export default function CheckoutForm() {
                                 <button
                                     disabled={isCheckingOut}
                                     type="submit"
-                                    className="submitButton"
+                                    className="submitButton mt-5"
                                 >
                                     Pagar
                                 </button>

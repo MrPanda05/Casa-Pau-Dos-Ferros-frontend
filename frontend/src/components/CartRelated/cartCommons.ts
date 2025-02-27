@@ -21,7 +21,7 @@ export interface IHistoryOrder{
 async function GetMyCart() {
     try {
         const token = await CoockieGet("token")
-        const response = await axios.get('http://127.0.0.1:8000/cart_item/', {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_LOCAL}/cart_item/`, {
             headers: {
                 Authorization: `token ${token?.value}`,
             }})
@@ -39,7 +39,7 @@ async function GetMyCart() {
 async function GetProductsOfMyCart() {
     try {
         const token = await CoockieGet("token")
-        const response = await axios.get('http://127.0.0.1:8000/api/cart/', {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_LOCAL}/api/cart/`, {
             headers: {
                 Authorization: `token ${token?.value}`,
             }})
@@ -56,7 +56,7 @@ async function GetProductsOfMyCart() {
 async function AddMyCart(productId: string) {
     try {
         const token = await CoockieGet("token")
-        const response = await axios.post('http://127.0.0.1:8000/cart_item/',{
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_LOCAL}/cart_item/`,{
             product: productId,
             quantity: 1,
         }, {
@@ -78,7 +78,7 @@ async function AddMyCart(productId: string) {
 async function UpdateMyCartId(product: ICartItem, amount: number) {
     try {
         const token = await CoockieGet("token")
-        const response = await axios.put(`http://127.0.0.1:8000/cart_item/${product.id}/`, {
+        const response = await axios.put(`${process.env.NEXT_PUBLIC_LOCAL}/cart_item/${product.id}/`, {
             id: product.id,
             cart: product.cart,
             product: product.product,
@@ -101,7 +101,7 @@ async function UpdateMyCartId(product: ICartItem, amount: number) {
 async function DeleteMyCartItem(product: ICartItem) {
     try {
         const token = await CoockieGet("token")
-        const response = await axios.delete(`http://127.0.0.1:8000/cart_item/${product.id}/`, {
+        const response = await axios.delete(`${process.env.NEXT_PUBLIC_LOCAL}/cart_item/${product.id}/`, {
             headers: {
                 Authorization: `token ${token?.value}`,
             }})
@@ -125,7 +125,7 @@ async function ConfirmMyCart(e: React.FormEvent<HTMLFormElement>){
     console.log(payment)
     try {
         const token = await CoockieGet("token")
-        const response = await axios.post('http://127.0.0.1:8000/api/confirm/',{
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_LOCAL}/api/confirm/`,{
             user_address: address,
             payment_method: payment
         }, {
@@ -147,7 +147,7 @@ async function ConfirmMyCart(e: React.FormEvent<HTMLFormElement>){
 async function OrderDevolution(oderId: number) {
     try {
         const token = await CoockieGet("token")
-        const response = await axios.post('http://127.0.0.1:8000/api/devolution/',{
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_LOCAL}/api/devolution/`,{
             order_id: oderId
         }, {
             headers: {
@@ -169,7 +169,7 @@ async function OrderDevolution(oderId: number) {
 async function GetMyOrderHistory(){
     try {
         const token = await CoockieGet("token")
-        const response = await axios.get('http://127.0.0.1:8000/api/order/',{
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_LOCAL}/api/order/`,{
             headers: {
                 Authorization: `token ${token?.value}`,
             }})

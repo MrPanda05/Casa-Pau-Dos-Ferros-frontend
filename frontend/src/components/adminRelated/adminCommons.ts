@@ -42,7 +42,7 @@ async function AddProduct(e: React.FormEvent<HTMLFormElement>){
 
     try {
         const token = await CoockieGet("token")
-        const response = await axios.post('http://127.0.0.1:8000/product/', {
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_LOCAL}/product/`, {
             name: name,
             description: description,
             price: price,
@@ -70,7 +70,7 @@ async function AddCategory(e: React.FormEvent<HTMLFormElement>){
     const description = formData.get('description') as string
     try {
         const token = await CoockieGet("token")
-        const response = await axios.post('http://127.0.0.1:8000/category/', {
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_LOCAL}/category/`, {
             name: name,
             description: description,
         },{
@@ -95,7 +95,7 @@ async function AddCategoryOnProduct(e: React.FormEvent<HTMLFormElement>){
     const categoryId = formData.get('categoryId') as string
     try {
         const token = await CoockieGet("token")
-        const response = await axios.post('http://127.0.0.1:8000/product_category/', {
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_LOCAL}/product_category/`, {
             category: categoryId,
             product: productId,
         },{
@@ -118,7 +118,7 @@ async function AmIAdmin(){
     try {
         const token = await CoockieGet("token")
         const mail = await CoockieGet("myMail")
-        const response = await axios.post('http://127.0.0.1:8000/api/staff/get',{
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_LOCAL}/api/staff/get`,{
             email: mail?.value
         }, {
             headers: {
@@ -163,7 +163,7 @@ async function RegisterStaffComplete(e: React.FormEvent<HTMLFormElement>){
 
     try {
         const token = await CoockieGet("token")
-        const response = await axios.post('http://127.0.0.1:8000/api/staff/', {
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_LOCAL}/api/staff/`, {
             username: username,
             email: email,
             password: password,
@@ -191,7 +191,7 @@ async function UpgrateToStaff(e: React.FormEvent<HTMLFormElement>){
 
     try {
         const token = await CoockieGet("token")
-        const response = await axios.post('http://127.0.0.1:8000/api/staff/update', {
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_LOCAL}/api/staff/update`, {
             email: email,
         },{
             headers: {

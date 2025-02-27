@@ -4,14 +4,15 @@ import { CoockieExist, CoockieGet } from "@/components/common/CoockiesManegers";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
-export default async function Page({ params }: { params: { id: string } }) {
+export default async function Page({ params }: { params: Promise<{ id: string }> }) {
   const {data} = await GetProductsOfMyCart()
   const userId = await CoockieGet("userId")
   const token = await CoockieExist("token");
+  const paramsId = (await params).id;
   if (!token) {
       redirect("/auth/login");
   }
-  if(params.id !== userId?.value){
+  if(paramsId !== userId?.value){
       redirect(`/user/${userId?.value}/cart`)
   }
   return (

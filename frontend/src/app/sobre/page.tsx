@@ -20,7 +20,7 @@ export default function Page(){
                     Politica de reembolso
                 </h2>
                 <div className="text-center">
-                    Carrinhos de compras com um total de menos de 100 não serão re-embolsados
+                    Carrinhos de compras com um total de menos de 100 reais não serão re-embolsados
                 </div>
             </div>
         </div>

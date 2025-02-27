@@ -24,7 +24,7 @@ export default function HistoryItem({order_id, cart, user_address, payment_metho
         }
     }
     return(
-        <div className="flex flex-col bg-blue-200 text-black text-center border-gray-950 border-4 rounded-md py-2 gap-2 mx-10 font-bold">
+        <div className="flex flex-col bg-blue-200 text-black text-center border-gray-950 border-4 rounded-md py-2 gap-2 mx-10 font-bold w-1/4">
             <h1 className="mx-10">
                 ID de compra: {order_id}
             </h1>
@@ -34,9 +34,16 @@ export default function HistoryItem({order_id, cart, user_address, payment_metho
             <div>
                 Total: R${total}
             </div>
-            {(Number(total) < 100) ? <button disabled className="font-bold mx-5 border-gray-950 border-2 px-5 bg-red-200 rounded-lg text-lg basis-sm">Inelegivel para re-embolso</button> 
-            : 
-            <button disabled={isDevolution} onClick={handleClick} className="mx-5 border-gray-950 border-2 px-5 basis-sm font-bold rounded-lg bg-green-700 active:bg-green-600 hover:bg-green-800 text-lg">Re-embolso disponivel</button>}
+            {status === 1 ? (
+                (Number(total) < 100) ? (
+                    <button disabled className="font-bold mx-5 border-gray-950 border-2 px-5 bg-red-200 rounded-lg text-lg basis-sm">Inelegivel para re-embolso</button>
+                ) : (
+                    <button disabled={isDevolution} onClick={handleClick} className="mx-5 border-gray-950 border-2 px-5 basis-sm font-bold rounded-lg bg-green-700 active:bg-green-600 hover:bg-green-800 text-lg">Re-embolso disponivel</button>
+                )
+            ) : (
+                <p className="font-bold mx-5 border-gray-950 border-2 px-5 bg-yellow-200 rounded-lg text-lg basis-sm">re-embolsado</p>
+            )}
+            
         </div>
     )
 }

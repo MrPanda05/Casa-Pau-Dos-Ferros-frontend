@@ -22,7 +22,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
     const isAdmin = data.status === 403 ? false : true;
 
     return (
-        <div className="grid grid-flow-row justify-center text-center gap-5">
+        <div className="grid grid-flow-row justify-center text-center gap-5 ">
             {/* {data.iddd} */}
             <h1 className="text-4xl font-bold m-10">Meu perfil</h1>
             <Avatar />
@@ -38,7 +38,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
                     </Link>
                 </div>
             </div>
-            <div className="mt-10">
+            <div className="mt-10 text-stone-900">
                 <LogOutButton />
                 {isAdmin && (
                     <div className="mt-5">

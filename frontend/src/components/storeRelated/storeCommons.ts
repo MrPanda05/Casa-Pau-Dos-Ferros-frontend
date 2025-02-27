@@ -29,7 +29,7 @@ export interface ICategory {
 
 async function GetAllProducts(pageNum = 1) {
     try {
-        const response = await axios.get(`http://127.0.0.1:8000/product/?page=${pageNum}`);
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_LOCAL}/product/?page=${pageNum}`);
         return { data: response.data, status: response.status };
     } catch (err) {
         if (axios.isAxiosError(err) && err.response) {
@@ -42,7 +42,7 @@ async function GetAllProducts(pageNum = 1) {
 
 async function GetMyProduct(productID: string) {
     try {
-        const response = await axios.get(`http://127.0.0.1:8000/product/${productID}`);
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_LOCAL}/product/${productID}`);
         return { data: response.data, status: response.status };
     } catch (err) {
         if (axios.isAxiosError(err) && err.response) {
@@ -55,7 +55,7 @@ async function GetMyProduct(productID: string) {
 
 async function GetCategories() {
     try {
-        const response = await axios.get("http://127.0.0.1:8000/category/");
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_LOCAL}/category/`);
         return { data: response.data, status: response.status };
     } catch (err) {
         if (axios.isAxiosError(err) && err.response) {
@@ -82,7 +82,7 @@ async function GetCategoryNameByID(categoryID: string) {
 
 async function GetProductByCategory(categoryID: string, pageNum = 1) {
     try {
-        const response = await axios.get(`http://127.0.0.1:8000/api/product/${categoryID}?page=${pageNum}`);
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_LOCAL}/api/product/${categoryID}?page=${pageNum}`);
         return { data: response.data, status: response.status };
     } catch (err) {
         if (axios.isAxiosError(err) && err.response) {

@@ -17,8 +17,18 @@ cd frontend
 ```
 npm install
 ```
+3. Criar um file .env dentro do folder frontend
 
-3. Iniciar o server
+4. Setar as variavies
+
+```
+NEXT_PUBLIC_PORT=8000
+NEXT_PUBLIC_HOST=localhost
+NEXT_PUBLIC_LOCAL=http://$NEXT_PUBLIC_HOST:$NEXT_PUBLIC_PORT
+```
+Certifique que o port seja igual ao do backend
+
+5. Iniciar o server
 ```
 npm run dev
 ```

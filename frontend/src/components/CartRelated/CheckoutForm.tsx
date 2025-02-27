@@ -44,7 +44,7 @@ export default function CheckoutForm() {
     return (
         <div className="rounded-md">
             <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 text-white font-bold text-2xl/9">
-                <h1 className="text-center">Cadastre-se!</h1>
+                <h1 className="text-center">Finalizar compras!</h1>
                 <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
                     <form method="POST" className="space-y-6" onSubmit={handleSubmit}>
                         <div>

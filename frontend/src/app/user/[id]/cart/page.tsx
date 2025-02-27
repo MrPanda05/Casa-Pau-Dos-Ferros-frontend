@@ -6,8 +6,6 @@ import Link from "next/link";
 export default async function Page() {
   const {data} = await GetProductsOfMyCart()
   const userId = await CoockieGet("userId")
-  console.log(data)
-  
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
       <div className="w-full max-w-2xl bg-slate-600 rounded-lg shadow-lg p-6">

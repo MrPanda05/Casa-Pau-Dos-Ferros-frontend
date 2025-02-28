@@ -3,6 +3,10 @@
 ## Sobre
 Este projeto é referente a disciplina de Engenharia de Software da UTFPR e tem como objetivo implementar funcionalidades básicas de um marketplace e 2 testes unitários sobre estas funcionalidades básicas
 
+## Design pattern 
+
+Esse projeto utiliza o [composite pattern](https://refactoring.guru/design-patterns/composite)
+
 ## Setup inicial
 ### Pré-requisitos
 [Node.js](https://nodejs.org/en/download)

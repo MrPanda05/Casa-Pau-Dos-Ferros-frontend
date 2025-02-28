@@ -3,10 +3,10 @@ import PaginationButtons from "@/components/common/PaginationButtons";
 import CategoriesComp from "@/components/storeRelated/CategoriesComp";
 import Item from "@/components/storeRelated/Item";
 import { GetAllProducts, IProduct } from "@/components/storeRelated/storeCommons";
-export default async function Page({ searchParams }: { searchParams: { page?: string } }) {
-  const page = Number(searchParams.page) || 1;
+export default async function Page({ searchParams }: { searchParams: Promise<{ page?: string }> }) {
+  const searchPage = (await searchParams).page;
+  const page = Number(searchPage) || 1;
   const { data } = await GetAllProducts(page)
-  console.log(data)
   return (
     <div className="flex flex-col">
         <h1 className="text-center text-2xl font-bold">
@@ -21,7 +21,7 @@ export default async function Page({ searchParams }: { searchParams: { page?: st
               <div className="m-1">
                 <div className="flex flex-col flex-nowrap">
                   <h1 className="font-bold text-lg mt-5 md:text-2xl text-center">
-                    Somente os melhores produtoss
+                    Somente os melhores produtos
                   </h1>
                   <div className="grid grid-cols-2 m-1 md:grid-cols-6">
                   {

@@ -12,7 +12,7 @@ export default async function Page() {
 
   return (
       <div>  {/*className="flex-1 flex flex-col justify-center gap-80"*/}
-          <div className="grid grid-cols-4 justify-center align-middle text-center font-bold text-lg mt-80">
+          <div className="grid grid-cols-4 justify-center align-middle text-center font-bold text-lg mt-80 text-stone-900">
             <div>
               <Link href='/admin/users' className="blueButton p-2">Cadastrar staff</Link>
             </div>

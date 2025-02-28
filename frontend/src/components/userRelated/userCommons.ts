@@ -40,7 +40,7 @@ async function AddNewAddress(e: React.FormEvent<HTMLFormElement>) {
     }
     try {
         const token = await CoockieGet("token")
-        const response = await axios.post('http://127.0.0.1:8000/api/address/', {
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_LOCAL}/api/address/`, {
             cep: cep,
             state: state,
             city: city,
@@ -68,7 +68,7 @@ async function AddNewAddress(e: React.FormEvent<HTMLFormElement>) {
 async function GetMyAdress(){
     try {
         const token = await CoockieGet("token")
-        const response = await axios.get('http://127.0.0.1:8000/address/',{
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_LOCAL}/address/`,{
             headers:{
                 Authorization: `token ${token?.value}`,
             }

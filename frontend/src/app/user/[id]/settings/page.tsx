@@ -1,12 +1,30 @@
 'use client'
 
 import AddAddress from "@/components/userRelated/AddAddress";
-import { useState  } from "react";
+import { useEffect, useState  } from "react";
 import { useRouter } from "next/navigation";
 import AddressesList from "@/components/userRelated/AddressList";
+import { CoockieGet } from "@/components/common/CoockiesManegers";
+import { useParams } from "next/navigation";
+
 export default function Page() {
   const router = useRouter();
+  const params = useParams();
+  const userId = params.id; 
   const [activeSetting, setActiveSetting] = useState('addAddress');
+  useEffect(() => {
+    const doShit = async () => {
+      const coockieId = await CoockieGet("userId");
+      if(userId !== coockieId?.value){
+        router.push(`/user/${coockieId?.value}/settings`);
+      }
+    }
+    doShit()
+  }, [router, userId])
+  async function goToHistory(){
+    const userId = await CoockieGet('userId');
+    router.push(`/user/${userId?.value}/history`);
+  }
   
     return (
       <div className="flex flex-row h-screen gap-2">
@@ -18,9 +36,9 @@ export default function Page() {
             <button className="settingsObj" onClick={() => setActiveSetting('addAddress')}>
               Adicionar endereço
             </button>
-            {/* <button className="settingsObj" onClick={() => setActiveSetting('buyHistory')}>
+            <button className="settingsObj" onClick={goToHistory}>
               Historico de compra
-            </button> */}
+            </button>
             <button className="settingsObj" onClick={() => setActiveSetting('addressesList')}>
               Meus endereços
             </button>
@@ -29,7 +47,6 @@ export default function Page() {
         <div className="grid grid-flow-row  bg-slate-800 size-full rounded-md overflow-scroll overflow-x-hidden justify-center">
           <div className="">
             {activeSetting === 'addAddress' && <AddAddress />}
-            {activeSetting === 'buyHistory' && <></>}
             {activeSetting === 'addressesList' && <AddressesList />}
           </div>
           <div className="self-center m-1 shrink basis-1">

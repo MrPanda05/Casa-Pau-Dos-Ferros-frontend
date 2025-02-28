@@ -80,7 +80,7 @@ async function RegiterUser(e: React.FormEvent<HTMLFormElement>) {
     username = username.replace(/[\n\r\s\t]+/g, '')
     try {
         
-        const response = await axios.post('http://127.0.0.1:8000/api/register/', {
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_LOCAL}/api/register/`, {
             username: username,
             email: email,
             password: password,
@@ -112,7 +112,7 @@ async function LogUser(e: React.FormEvent<HTMLFormElement>) {
 
 
     try {
-        const response = await axios.post('http://127.0.0.1:8000/api/login/', {
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_LOCAL}/api/login/`, {
             login: email,
             password: password
         })
@@ -139,7 +139,7 @@ export async function LogOut(){
     try {
         const token = await CoockieGet("token")
         console.log(token?.value)
-        const response = await axios.post('http://127.0.0.1:8000/api/logout/',{
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_LOCAL}/api/logout/`,{
             token: token?.value
         }, {
             headers: {
